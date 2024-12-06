@@ -18,17 +18,20 @@ const lora = Lora({
 
 //custom palette types
 declare module "@mui/material/styles" {
-  interface Palette {
-    bg: {
-      aliceBlue: string;
-      tertiary: string;
-    };
-  }
+  // interface Palette {
+  //   bg: {
+  //     aliceBlue: string;
+  //     tertiary: string;
+  //   };
+  // }
   interface PaletteOptions {
     bg?: {
-      aliceBlue: string;
-      tertiary: "#080f58";
+      aliceBlue?: string;
+      tertiary?: string;
     };
+  }
+  interface TypeText {
+    blue: string;
   }
 }
 
@@ -45,6 +48,7 @@ declare module "@mui/material/Typography" {
 declare module "@mui/material/Button" {
   interface ButtonPropsVariantOverrides {
     btnSecondary?: true;
+    btnTertiary?: true;
   }
 }
 
@@ -80,6 +84,7 @@ export const theme = createTheme({
     text: {
       primary: "#000",
       secondary: "#fff",
+      blue: "#0900a1",
     },
   },
 
@@ -202,6 +207,20 @@ export const theme = createTheme({
             },
           }),
         },
+        {
+          props: { variant: "caption1" },
+          style: ({ theme }) => ({
+            fontFamily: lora.style.fontFamily,
+            fontStyle: "normal",
+            fontWeight: "400",
+            display: "inline-block",
+            fontSize: "25px",
+            lineHeight: "35px",
+            [theme.breakpoints.down("sm")]: {
+              fontSize: "12px",
+            },
+          }),
+        },
       ],
     },
 
@@ -227,6 +246,18 @@ export const theme = createTheme({
             border: "1px solid #8686ff",
             "&:hover": {
               backgroundColor: "#6767c8",
+            },
+          },
+        },
+        {
+          props: { variant: "btnTertiary" },
+          style: {
+            backgroundColor: "#080f58",
+            color: "#fff",
+            borderRadius: "2px",
+            border: "1px solid tarnsparent",
+            "&:hover": {
+              backgroundColor: "#080f58",
             },
           },
         },
