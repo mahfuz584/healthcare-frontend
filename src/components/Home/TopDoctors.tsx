@@ -28,6 +28,7 @@ const TopDoctors = ({ topDoctors }: TTopDoctorsProps) => {
             }}
           />
           <Typography
+            className="top-doctors-title"
             variant="caption1"
             sx={{
               fontWeight: "bold",
@@ -44,13 +45,14 @@ const TopDoctors = ({ topDoctors }: TTopDoctorsProps) => {
           container
           justifyContent={"center"}
           rowGap={7}
-          columnGap={"30px"}
+          columnGap={"14px"}
         >
           {topDoctors?.map((doctor, idx) => (
             <Grid2
+              className="doctor-card"
               key={idx}
               size={{
-                md: 3.5,
+                md: 2.9,
                 sm: 12,
               }}
             >

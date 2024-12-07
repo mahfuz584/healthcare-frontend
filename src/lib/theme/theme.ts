@@ -32,6 +32,7 @@ declare module "@mui/material/styles" {
   }
   interface TypeText {
     blue: string;
+    textWhite: string;
   }
 }
 
@@ -85,6 +86,7 @@ export const theme = createTheme({
       primary: "#000",
       secondary: "#fff",
       blue: "#0900a1",
+      textWhite: "#fff",
     },
   },
 
@@ -132,7 +134,6 @@ export const theme = createTheme({
           fontWeight: "700",
           fontSize: "74px",
           lineHeight: "65px",
-          color: "#FFF",
           [theme.breakpoints.down("md")]: {
             fontSize: "60px",
           },
@@ -164,7 +165,7 @@ export const theme = createTheme({
           fontWeight: "500",
           fontSize: "34px",
           lineHeight: "45px",
-          color: "#FFF",
+
           [theme.breakpoints.down("md")]: {
             fontSize: "25px",
           },
@@ -175,7 +176,7 @@ export const theme = createTheme({
           fontSize: "20px",
 
           lineHeight: "30px",
-          color: "#fff",
+
           [theme.breakpoints.down("md")]: {
             fontSize: "20px",
           },

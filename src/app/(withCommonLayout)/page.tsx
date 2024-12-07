@@ -5,7 +5,7 @@ import { serverSideDataFetch } from "@/utils/fetcher/serverSideDataFetch";
 
 const HomePage = async () => {
   const specialties = await serverSideDataFetch("specialties");
-  const topDoctorsData = await serverSideDataFetch("doctor?page=1&limit=6");
+  const topDoctorsData = await serverSideDataFetch("doctor?page=1&limit=4");
   console.log("🚀 ~ topDoctorsData", topDoctorsData);
 
   return (
