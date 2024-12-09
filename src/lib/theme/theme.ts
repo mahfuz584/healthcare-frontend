@@ -27,12 +27,14 @@ declare module "@mui/material/styles" {
   interface PaletteOptions {
     bg?: {
       aliceBlue?: string;
+      bgGray?: string;
       tertiary?: string;
     };
   }
   interface TypeText {
     blue: string;
     textWhite: string;
+    textGray: string;
   }
 }
 
@@ -50,6 +52,7 @@ declare module "@mui/material/Button" {
   interface ButtonPropsVariantOverrides {
     btnSecondary?: true;
     btnTertiary?: true;
+    btnOutline?: true;
   }
 }
 
@@ -80,6 +83,7 @@ export const theme = createTheme({
     bg: {
       aliceBlue: "#ECF6FF",
       tertiary: "#080f58",
+      bgGray: "#f5f5f5",
     },
 
     text: {
@@ -87,6 +91,7 @@ export const theme = createTheme({
       secondary: "#fff",
       blue: "#0900a1",
       textWhite: "#fff",
+      textGray: "#0000008a",
     },
   },
 
@@ -255,11 +260,21 @@ export const theme = createTheme({
           style: {
             backgroundColor: "#080f58",
             color: "#fff",
-            borderRadius: "2px",
+            borderRadius: "4px",
             border: "1px solid tarnsparent",
             "&:hover": {
               backgroundColor: "#080f58",
             },
+          },
+        },
+        {
+          props: { variant: "btnOutline" },
+          style: {
+            backgroundColor: "#fff",
+
+            color: "#080f58",
+            borderRadius: "4px",
+            border: "1px solid #080f58",
           },
         },
       ],

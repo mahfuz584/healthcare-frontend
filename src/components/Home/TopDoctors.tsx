@@ -17,7 +17,11 @@ const TopDoctors = ({ topDoctors }: TTopDoctorsProps) => {
         position: "relative",
       }}
     >
-      <Box sx={{ mb: 10 }}>
+      <Box
+        sx={{
+          mb: 12,
+        }}
+      >
         <Stack direction="row" alignItems="center" justifyContent={"center"}>
           <Divider
             orientation="vertical"
@@ -62,6 +66,18 @@ const TopDoctors = ({ topDoctors }: TTopDoctorsProps) => {
           ))}
         </Grid2>
       </Container>
+      <Box
+        sx={{
+          position: "absolute",
+
+          top: "-15%",
+          clipPath: "polygon(0 82%, 0 0, 100% 11%, 100% 89%)",
+          bgcolor: "bg.bgGray",
+          width: "99vw",
+          height: "90vh",
+          zIndex: -1,
+        }}
+      />
     </Box>
   );
 };

@@ -1,7 +1,10 @@
 import { TTOPDoctorObjProps } from "@/types/pageProps";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Rating, Typography } from "@mui/material";
 import Image from "next/image";
 import React from "react";
+import { FaHospitalSymbol } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
+import { IoCallSharp } from "react-icons/io5";
 type TDoctorsCardProps = {
   doctorInfo: TTOPDoctorObjProps;
 };
@@ -9,120 +12,142 @@ const CustomCard: React.FC<TDoctorsCardProps> = ({ doctorInfo }) => {
   return (
     <Box
       sx={{
-        width: "100%",
-        bgcolor: "#ffff",
-        p: "15px",
+        height: "420px",
         display: "flex",
-        flexDirection: "column",
-        gap: "12px",
-        borderRadius: "10px",
-        boxShadow: "1px 1px 20px 9px #0000001a",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <Box
         sx={{
           width: "100%",
-          bgcolor: "red",
+          height: "330px",
+          border: "1px solid #0000001a",
           borderRadius: "10px",
           position: "relative",
-          "&::before": {
-            content: "''",
-            position: "absolute",
-            width: "20px",
-            height: "20px",
-            borderRadius: "50%",
-            backgroundColor: "transparent",
-            bottom: "0",
-            right: "50%",
-            boxShadow: "10px 10px 0px #ffff",
-          },
-          "&::after": {
-            content: "''",
-            position: "absolute",
-            width: "20px",
-            height: "20px",
-            borderRadius: "50%",
-            backgroundColor: "transparent",
-            bottom: "58px",
-            right: 0,
-            boxShadow: "10px 10px 0px #ffff",
+          transition: "all 0.4s ease",
+          "&:hover": {
+            height: "400px",
+            "& .doctor-content": {
+              transform: "translateY(-70px)",
+              height: "250px",
+            },
+            "& .doctor-details": {
+              opacity: 1,
+            },
+            "& .doctor-img": {
+              width: "65%",
+              aspectRatio: "4/3",
+              mx: "auto",
+              transform: "translateY(-70px)",
+            },
           },
         }}
       >
-        <Box
-          sx={{
-            position: "relative",
-            width: "100%",
-            aspectRatio: "4/3",
-            overflow: "hidden",
-            border: "2px solid #000",
-            "& img": {
-              objectFit: "cover",
-              borderRadius: "10px",
-              border: "2px solid #000",
-            },
-          }}
-        >
-          <Image
-            src={doctorInfo?.profilePhoto}
-            alt={doctorInfo?.name}
-            fill
-            sizes="(max-width: 768px) 33vw, (max-width: 1200px) 50vw, 100vw"
-          />
-        </Box>
-        <Box sx={{ position: "absolute", bottom: 5, left: 20 }}>
-          <Button variant="btnTertiary">Get Appoinment</Button>
-        </Box>
-      </Box>
-      <Box
-        sx={{
-          width: "100%",
-          height: "120px",
-          bgcolor: "#F2EFE5",
-          borderRadius: "10px",
-          position: "relative",
-          borderTopRightRadius: "0px",
-        }}
-      >
-        <Box
-          sx={{
-            width: "50%",
-            height: "83px",
-            bgcolor: "#F2EFE5",
-            position: "absolute",
-            top: "-83px",
-            right: "0",
-            borderTop: "10px solid #ffff",
-            borderLeft: "10px solid #ffff",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            borderTopLeftRadius: "25px",
-            "&::before": {
-              content: "''",
-              position: "absolute",
-              width: "20px",
-              height: "20px",
-              borderRadius: "50%",
-              backgroundColor: "transparent",
-              top: 0,
-              right: 0,
-              boxShadow: "10px -10px 0px #ffff",
-            },
-            "&::after": {
-              content: "''",
-              position: "absolute",
-              width: "20px",
-              height: "20px",
-              borderRadius: "50%",
-              backgroundColor: "transparent",
-              bottom: 0,
-              left: -20,
-              boxShadow: "10px 10px 0px #F2EFE5",
-            },
-          }}
-        >
-          <Button variant="btnTertiary">Get Appoinment</Button>
+        <Box>
+          <Box>
+            <Box
+              className="doctor-img"
+              sx={{
+                position: "relative",
+                width: "85%",
+                aspectRatio: "4/3",
+                mx: "auto",
+                mt: 3,
+                transform: "translateY(0)",
+                transition: "all 0.4s ease",
+                borderRadius: "10px",
+                overflow: "hidden",
+                "& img": {
+                  objectFit: "cover",
+                },
+              }}
+            >
+              <Image
+                src={doctorInfo?.profilePhoto}
+                alt={doctorInfo?.name}
+                fill
+              />
+            </Box>
+          </Box>
+          <Box
+            className="doctor-content"
+            sx={{
+              height: "100px",
+              overflow: "hidden",
+              transition: "all 0.4s ease-in-out",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                gap: "20px",
+                mt: 4,
+              }}
+            >
+              <Button variant="btnOutline" sx={{ width: "130px" }}>
+                View Profile
+              </Button>
+              <Button variant="btnTertiary">Get Appoinment</Button>
+            </Box>
+            <Box
+              className="doctor-details"
+              sx={{
+                mt: "30px",
+                px: 3,
+                display: "flex",
+                flexDirection: "column",
+                gap: "5px",
+                color: "text.textGray",
+                opacity: 0,
+                transition: "all 0.4s ease-in-out",
+              }}
+            >
+              <Typography variant="h5">{doctorInfo?.name}</Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "5px",
+                }}
+              >
+                <IoCallSharp />
+                <Typography variant="body1">
+                  {doctorInfo?.contactNumber}
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "5px",
+                }}
+              >
+                <FaLocationDot />
+                <Typography variant="body1">{doctorInfo?.address}</Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "5px",
+                }}
+              >
+                <FaHospitalSymbol />
+                <Typography variant="body1" sx={{}}>
+                  {doctorInfo?.currentWorkingPlace}
+                </Typography>
+              </Box>
+              <Box>
+                <Rating
+                  name="read-only"
+                  value={doctorInfo?.averageRating}
+                  readOnly
+                />
+              </Box>
+            </Box>
+          </Box>
         </Box>
       </Box>
     </Box>
