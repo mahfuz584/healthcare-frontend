@@ -7,13 +7,14 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import DoctorsCard from "../Shared/DoctorsCard";
+import DoctorsCard from "../shared/DoctorsCard";
 
 const TopDoctors = ({ topDoctors }: TTopDoctorsProps) => {
   return (
     <Box
       sx={{
         mt: 14,
+
         position: "relative",
       }}
     >

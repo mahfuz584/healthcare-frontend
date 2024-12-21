@@ -27,20 +27,23 @@ const DoctorsCard: React.FC<TDoctorsCardProps> = ({ doctorInfo }) => {
           borderRadius: "10px",
           position: "relative",
           transition: "all 0.4s ease",
+
           "&:hover": {
             height: "400px",
+
             "& .doctor-content": {
-              transform: "translateY(-70px)",
-              height: "270px",
+              transform: "translateY(-80px)",
+              height: "255px",
             },
             "& .doctor-details": {
               opacity: 1,
             },
             "& .doctor-img": {
+              overflow: "visible",
               width: "65%",
               aspectRatio: "4/3",
               mx: "auto",
-              transform: "translateY(-70px)",
+              transform: "translateY(-80px)",
             },
           },
         }}
@@ -55,12 +58,14 @@ const DoctorsCard: React.FC<TDoctorsCardProps> = ({ doctorInfo }) => {
                 aspectRatio: "4/3",
                 mx: "auto",
                 mt: 3,
-                transform: "translateY(0)",
+                transform: "translateY(0)", // Default state
                 transition: "all 0.4s ease",
                 borderRadius: "10px",
-                overflow: "hidden",
+
+                // Removed overflow: hidden here to allow the image to move freely
                 "& img": {
                   objectFit: "cover",
+                  borderRadius: "10px",
                 },
               }}
             >
@@ -77,7 +82,8 @@ const DoctorsCard: React.FC<TDoctorsCardProps> = ({ doctorInfo }) => {
             sx={{
               height: "100px",
               overflow: "hidden",
-              transition: "all 0.4s ease-in-out",
+              transition: "all 0.4s ease",
+              transform: "translateY(0)",
             }}
           >
             <Box
@@ -91,7 +97,7 @@ const DoctorsCard: React.FC<TDoctorsCardProps> = ({ doctorInfo }) => {
               <Button variant="btnOutline" sx={{ width: "130px" }}>
                 View Profile
               </Button>
-              <Button variant="btnTertiary">Get Appoinment</Button>
+              <Button variant="btnTertiary">Get Appointment</Button>
             </Box>
             <Box
               className="doctor-details"
@@ -102,7 +108,7 @@ const DoctorsCard: React.FC<TDoctorsCardProps> = ({ doctorInfo }) => {
                 flexDirection: "column",
                 gap: "8px",
                 color: "text.textGray",
-                opacity: 0,
+                opacity: 0, // Default opacity
                 transition: "all 0.1s ease",
               }}
             >

@@ -1,5 +1,5 @@
-import Footer from "@/components/Shared/Footer";
-import Header from "@/components/Shared/Header";
+import Footer from "@/components/shared/Footer";
+import Header from "@/components/shared/Header";
 import { Box } from "@mui/material";
 import React from "react";
 

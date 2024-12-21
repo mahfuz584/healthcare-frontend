@@ -36,3 +36,14 @@ export interface TTOPDoctorObjProps {
 export interface TTopDoctorsProps {
   topDoctors: TTOPDoctorObjProps[];
 }
+
+//why choose us component props
+export interface TChooseUsObjProps {
+  id: number;
+  title: string;
+  description: string;
+  img: string;
+}
+export interface TChooseUsProps {
+  chooseUsContent: TChooseUsObjProps[];
+}
