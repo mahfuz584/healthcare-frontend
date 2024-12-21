@@ -1,6 +1,5 @@
 "use client";
-import { formDataPayload } from "@/utils/formDataPayload";
-import { signUpItems } from "@helper/data/registerFields";
+import { signInItems } from "@helper/data/registerFields";
 import {
   Box,
   Button,
@@ -13,7 +12,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { MuiTelInput } from "mui-tel-input";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -24,36 +22,25 @@ import {
   useForm,
 } from "react-hook-form";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
-import { formDataServerActions } from "services/actions";
+import { rawDataServerActions } from "services/actions";
 import { toast } from "sonner";
 
-const RegisterPage = () => {
+const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
-      patient: {
-        name: "",
-        email: "",
-        contactNumber: "",
-        address: "",
-      },
+      email: "",
       password: "",
     },
   });
-
-  const onSubmit: SubmitHandler<FieldValues> = async (values) => {
-    const data = formDataPayload(values);
-    try {
-      const res = await formDataServerActions("/user/create-patient", data);
-      if (res.success) {
-        reset();
-        toast.success(res.message);
-      } else {
-        toast.error(res.message || "Something went wrong");
-      }
-    } catch (err) {
-      console.error(err);
+  const onSubmit: SubmitHandler<FieldValues> = async (values: any) => {
+    const res = await rawDataServerActions("/auth/login", values);
+    if (res.success) {
+      toast.success(res.message || "Login Successful");
+      reset();
+    } else {
+      toast.error(res.message || "Something went wrong");
     }
   };
   return (
@@ -159,74 +146,65 @@ const RegisterPage = () => {
                 justifyContent="space-between"
                 sx={{
                   rowGap: 4,
+                  width: "100%",
                 }}
               >
-                {signUpItems?.map(
-                  ({ name, label, type, placeholder, multiline }, idx) => {
-                    return (
-                      <Grid2
-                        key={idx}
-                        size={{ xs: 12, md: type === "text-area" ? 12 : 5.9 }}
-                      >
-                        <Controller
-                          name={name as any}
-                          control={control}
-                          render={({ field }) => {
-                            return type === "tel" ? (
-                              <MuiTelInput
-                                {...field}
-                                defaultCountry={"BD"}
-                                fullWidth
-                                label={label}
-                              />
-                            ) : type === "password" ? (
-                              <OutlinedInput
-                                endAdornment={
-                                  <InputAdornment position="end">
-                                    <IconButton
-                                      aria-label={
-                                        showPassword
-                                          ? "hide the password"
-                                          : "display the password"
-                                      }
-                                      onClick={handleClickShowPassword}
-                                      edge="end"
-                                    >
-                                      {showPassword ? (
-                                        <MdVisibilityOff />
-                                      ) : (
-                                        <MdVisibility />
-                                      )}
-                                    </IconButton>
-                                  </InputAdornment>
-                                }
-                                {...field}
-                                size="small"
-                                required
-                                fullWidth
-                                label={label}
-                                type={showPassword ? "text" : "password"}
-                                placeholder={placeholder}
-                              />
-                            ) : (
-                              <TextField
-                                {...field}
-                                size="small"
-                                multiline={multiline}
-                                rows={multiline ? 2 : 1}
-                                required
-                                fullWidth
-                                label={label}
-                                type={type}
-                                placeholder={placeholder}
-                              />
-                            );
-                          }}
-                        />
-                      </Grid2>
-                    );
-                  }
-                )}
+                {signInItems?.map(({ name, label, type, placeholder }, idx) => {
+                  return (
+                    <Grid2 key={idx} size={{ xs: 12, md: 5.9 }}>
+                      <Controller
+                        name={name as any}
+                        control={control}
+                        render={({ field }) => {
+                          return (
+                            <>
+                              {type === "password" ? (
+                                <OutlinedInput
+                                  endAdornment={
+                                    <InputAdornment position="end">
+                                      <IconButton
+                                        aria-label={
+                                          showPassword
+                                            ? "hide the password"
+                                            : "display the password"
+                                        }
+                                        onClick={handleClickShowPassword}
+                                        edge="end"
+                                      >
+                                        {showPassword ? (
+                                          <MdVisibilityOff />
+                                        ) : (
+                                          <MdVisibility />
+                                        )}
+                                      </IconButton>
+                                    </InputAdornment>
+                                  }
+                                  {...field}
+                                  size="small"
+                                  required
+                                  fullWidth
+                                  label={label}
+                                  type={showPassword ? "text" : "password"}
+                                  placeholder={placeholder}
+                                />
+                              ) : (
+                                <TextField
+                                  {...field}
+                                  size="small"
+                                  required
+                                  fullWidth
+                                  label={label}
+                                  type={type}
+                                  placeholder={placeholder}
+                                />
+                              )}
+                            </>
+                          );
+                        }}
+                      />
+                    </Grid2>
+                  );
+                })}
               </Grid2>
               <Button
                 type="submit"
@@ -240,17 +218,44 @@ const RegisterPage = () => {
                 Register
               </Button>
             </form>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                width: "100%",
+              }}
+            >
+              <Link href={"/forgot-password"}>
+                <Typography
+                  sx={{
+                    width: "fit-content",
+                    display: "inline-flex",
+                    textAlign: "end",
+                    pt: 3,
+                    color: "text.textGray",
+                    cursor: "pointer",
+                    "&:hover": {
+                      textDecoration: "underline",
+                    },
+                  }}
+                >
+                  Forgot Password
+                </Typography>
+              </Link>
+            </Box>
+
             <Stack
               direction="row"
               alignItems="center"
               justifyContent="end"
               gap={1}
               mt={2}
+              color={"text.textGray"}
             >
               <Typography variant="body1" className="text-center">
-                Already Have an account?
+                {"Don't Have an account?"}
               </Typography>
-              <Link href="/login">
+              <Link href="/register">
                 <Typography
                   variant="body1"
                   sx={{
@@ -260,7 +265,7 @@ const RegisterPage = () => {
                     },
                   }}
                 >
-                  Sign In
+                  Create Account
                 </Typography>
               </Link>
             </Stack>
@@ -271,4 +276,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default LoginPage;

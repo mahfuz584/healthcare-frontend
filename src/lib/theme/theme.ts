@@ -18,17 +18,25 @@ const lora = Lora({
 
 //custom palette types
 declare module "@mui/material/styles" {
-  interface Palette {
-    bg: {
-      aliceBlue: string;
-      tertiary: string;
-    };
-  }
+  // interface Palette {
+  //   bg: {
+  //     aliceBlue: string;
+  //     tertiary: string;
+  //   };
+  // }
   interface PaletteOptions {
     bg?: {
-      aliceBlue: string;
-      tertiary: "#080f58";
+      aliceBlue?: string;
+      bgGray?: string;
+      tertiary?: string;
+      semiBlue?: string;
     };
+  }
+  interface TypeText {
+    semiBlue: string;
+    blue: string;
+    textWhite: string;
+    textGray: string;
   }
 }
 
@@ -45,6 +53,8 @@ declare module "@mui/material/Typography" {
 declare module "@mui/material/Button" {
   interface ButtonPropsVariantOverrides {
     btnSecondary?: true;
+    btnTertiary?: true;
+    btnOutline?: true;
   }
 }
 
@@ -75,11 +85,17 @@ export const theme = createTheme({
     bg: {
       aliceBlue: "#ECF6FF",
       tertiary: "#080f58",
+      bgGray: "#f5f5f5",
+      semiBlue: "#3f51b5",
     },
 
     text: {
       primary: "#000",
       secondary: "#fff",
+      blue: "#0900a1",
+      semiBlue: "#3f51b5",
+      textWhite: "#fff",
+      textGray: "#0000008a",
     },
   },
 
@@ -127,7 +143,6 @@ export const theme = createTheme({
           fontWeight: "700",
           fontSize: "74px",
           lineHeight: "65px",
-          color: "#FFF",
           [theme.breakpoints.down("md")]: {
             fontSize: "60px",
           },
@@ -159,7 +174,7 @@ export const theme = createTheme({
           fontWeight: "500",
           fontSize: "34px",
           lineHeight: "45px",
-          color: "#FFF",
+
           [theme.breakpoints.down("md")]: {
             fontSize: "25px",
           },
@@ -170,7 +185,7 @@ export const theme = createTheme({
           fontSize: "20px",
 
           lineHeight: "30px",
-          color: "#fff",
+
           [theme.breakpoints.down("md")]: {
             fontSize: "20px",
           },
@@ -202,9 +217,22 @@ export const theme = createTheme({
             },
           }),
         },
+        {
+          props: { variant: "caption1" },
+          style: ({ theme }) => ({
+            fontFamily: lora.style.fontFamily,
+            fontStyle: "normal",
+            fontWeight: "400",
+            display: "inline-block",
+            fontSize: "25px",
+            lineHeight: "35px",
+            [theme.breakpoints.down("sm")]: {
+              fontSize: "12px",
+            },
+          }),
+        },
       ],
     },
-
     MuiButton: {
       defaultProps: {
         variant: "contained",
@@ -230,6 +258,28 @@ export const theme = createTheme({
             },
           },
         },
+        {
+          props: { variant: "btnTertiary" },
+          style: {
+            backgroundColor: "#080f58",
+            color: "#fff",
+            borderRadius: "4px",
+            border: "1px solid tarnsparent",
+            "&:hover": {
+              backgroundColor: "#080f58",
+            },
+          },
+        },
+        {
+          props: { variant: "btnOutline" },
+          style: {
+            backgroundColor: "#fff",
+
+            color: "#080f58",
+            borderRadius: "4px",
+            border: "1px solid #080f58",
+          },
+        },
       ],
     },
     MuiContainer: {
@@ -246,6 +296,35 @@ export const theme = createTheme({
             maxWidth: "93%",
           },
         }),
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          "& .MuiOutlinedInput-root": {
+            borderRadius: "5px",
+            backgroundColor: "#fff",
+            color: "#080f58",
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#080f58",
+            },
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              border: "1px solid #080f58", // Border color when focused
+            },
+          },
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#080f58", // Default border color
+          },
+          "& .MuiInputLabel-root": {
+            color: "#080f58", // Default label color
+            "&.Mui-focused": {
+              color: "#080f58", // Label color when focused
+            },
+          },
+          "& .MuiOutlinedInput-input": {
+            padding: "10px",
+          },
+        },
       },
     },
   },

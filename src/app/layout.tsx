@@ -1,6 +1,7 @@
 import CustomThemeProvider from "@lib/providers/CustomThemeProvider";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import type { Metadata } from "next";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -17,7 +18,10 @@ export default function RootLayout({
     <html lang="en">
       <body className="antialiased">
         <AppRouterCacheProvider>
-          <CustomThemeProvider>{children}</CustomThemeProvider>
+          <CustomThemeProvider>
+            <Toaster richColors closeButton position="top-center" />
+            {children}
+          </CustomThemeProvider>
         </AppRouterCacheProvider>
       </body>
     </html>
