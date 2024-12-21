@@ -6,6 +6,9 @@ import {
   Button,
   Container,
   Grid2,
+  IconButton,
+  InputAdornment,
+  OutlinedInput,
   Stack,
   TextField,
   Typography,
@@ -13,17 +16,21 @@ import {
 import { MuiTelInput } from "mui-tel-input";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import {
   Controller,
   FieldValues,
   SubmitHandler,
   useForm,
 } from "react-hook-form";
-import { serverActions } from "services/actions";
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+import { formDataServerActions } from "services/actions";
 import { toast } from "sonner";
 
 const RegisterPage = () => {
-  const { control, handleSubmit } = useForm({
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       patient: {
         name: "",
@@ -38,11 +45,12 @@ const RegisterPage = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (values) => {
     const data = formDataPayload(values);
     try {
-      const res = await serverActions("/user/create-patient", data);
+      const res = await formDataServerActions("/user/create-patient", data);
       if (res.success) {
+        reset();
         toast.success(res.message);
       } else {
-        toast.error(res.message);
+        toast.error(res.message || "Something went wrong");
       }
     } catch (err) {
       console.error(err);
@@ -170,6 +178,35 @@ const RegisterPage = () => {
                                 defaultCountry={"BD"}
                                 fullWidth
                                 label={label}
+                              />
+                            ) : type === "password" ? (
+                              <OutlinedInput
+                                endAdornment={
+                                  <InputAdornment position="end">
+                                    <IconButton
+                                      aria-label={
+                                        showPassword
+                                          ? "hide the password"
+                                          : "display the password"
+                                      }
+                                      onClick={handleClickShowPassword}
+                                      edge="end"
+                                    >
+                                      {showPassword ? (
+                                        <MdVisibilityOff />
+                                      ) : (
+                                        <MdVisibility />
+                                      )}
+                                    </IconButton>
+                                  </InputAdornment>
+                                }
+                                {...field}
+                                size="small"
+                                required
+                                fullWidth
+                                label={label}
+                                type={showPassword ? "text" : "password"}
+                                placeholder={placeholder}
                               />
                             ) : (
                               <TextField

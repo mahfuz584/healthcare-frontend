@@ -1,6 +1,9 @@
 "use server";
 
-export async function serverActions(endpoint: string, payload: FormData) {
+export async function formDataServerActions(
+  endpoint: string,
+  payload: FormData
+) {
   const prodBaseUrl = "";
   const devBaseUrl = process.env.NEXT_PUBLIC_API_URL;
   const baseUrl =
@@ -12,13 +15,35 @@ export async function serverActions(endpoint: string, payload: FormData) {
       body: payload,
       cache: "no-store",
     });
-    if (!response.ok) {
-      throw new Error("An error occurred while fetching the data");
-    }
+
     const data = await response.json();
     return data;
-  } catch (err) {
-    console.error(err);
-    throw err;
+  } catch (err: any) {
+    return { success: false, message: err.message || "Something went wrong" };
+  }
+}
+export async function rawDataServerActions(
+  endpoint: string,
+  payload: FormData
+) {
+  const prodBaseUrl = "";
+  const devBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+  const baseUrl =
+    process.env.NODE_ENV === "development" ? devBaseUrl : prodBaseUrl;
+  const url = `${baseUrl}/${endpoint}`;
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (err: any) {
+    return { success: false, message: err.message || "Something went wrong" };
   }
 }

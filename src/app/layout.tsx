@@ -19,7 +19,7 @@ export default function RootLayout({
       <body className="antialiased">
         <AppRouterCacheProvider>
           <CustomThemeProvider>
-            <Toaster richColors />
+            <Toaster richColors closeButton position="top-center" />
             {children}
           </CustomThemeProvider>
         </AppRouterCacheProvider>

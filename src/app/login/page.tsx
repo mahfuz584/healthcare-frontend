@@ -5,28 +5,43 @@ import {
   Button,
   Container,
   Grid2,
+  IconButton,
+  InputAdornment,
+  OutlinedInput,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import {
   Controller,
   FieldValues,
   SubmitHandler,
   useForm,
 } from "react-hook-form";
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+import { rawDataServerActions } from "services/actions";
+import { toast } from "sonner";
 
 const LoginPage = () => {
-  const { control, handleSubmit } = useForm({
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       email: "",
       password: "",
     },
   });
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FieldValues> = async (values: any) => {
+    const res = await rawDataServerActions("/auth/login", values);
+    if (res.success) {
+      toast.success(res.message || "Login Successful");
+      reset();
+    } else {
+      toast.error(res.message || "Something went wrong");
+    }
   };
   return (
     <Box sx={{ position: "relative" }}>
@@ -142,15 +157,48 @@ const LoginPage = () => {
                         control={control}
                         render={({ field }) => {
                           return (
-                            <TextField
-                              {...field}
-                              size="small"
-                              required
-                              fullWidth
-                              label={label}
-                              type={type}
-                              placeholder={placeholder}
-                            />
+                            <>
+                              {type === "password" ? (
+                                <OutlinedInput
+                                  endAdornment={
+                                    <InputAdornment position="end">
+                                      <IconButton
+                                        aria-label={
+                                          showPassword
+                                            ? "hide the password"
+                                            : "display the password"
+                                        }
+                                        onClick={handleClickShowPassword}
+                                        edge="end"
+                                      >
+                                        {showPassword ? (
+                                          <MdVisibilityOff />
+                                        ) : (
+                                          <MdVisibility />
+                                        )}
+                                      </IconButton>
+                                    </InputAdornment>
+                                  }
+                                  {...field}
+                                  size="small"
+                                  required
+                                  fullWidth
+                                  label={label}
+                                  type={showPassword ? "text" : "password"}
+                                  placeholder={placeholder}
+                                />
+                              ) : (
+                                <TextField
+                                  {...field}
+                                  size="small"
+                                  required
+                                  fullWidth
+                                  label={label}
+                                  type={type}
+                                  placeholder={placeholder}
+                                />
+                              )}
+                            </>
                           );
                         }}
                       />
