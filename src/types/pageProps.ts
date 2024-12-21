@@ -47,3 +47,17 @@ export interface TChooseUsObjProps {
 export interface TChooseUsProps {
   chooseUsContent: TChooseUsObjProps[];
 }
+
+//register page props
+export interface TRegisterProps {
+  name: string;
+  email: string;
+  password: string;
+  contactNumber: string;
+  address: string;
+}
+
+export interface TSignInFormProps {
+  email: string;
+  password: string;
+}

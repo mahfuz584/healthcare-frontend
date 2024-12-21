@@ -29,9 +29,11 @@ declare module "@mui/material/styles" {
       aliceBlue?: string;
       bgGray?: string;
       tertiary?: string;
+      semiBlue?: string;
     };
   }
   interface TypeText {
+    semiBlue: string;
     blue: string;
     textWhite: string;
     textGray: string;
@@ -84,12 +86,14 @@ export const theme = createTheme({
       aliceBlue: "#ECF6FF",
       tertiary: "#080f58",
       bgGray: "#f5f5f5",
+      semiBlue: "#3f51b5",
     },
 
     text: {
       primary: "#000",
       secondary: "#fff",
       blue: "#0900a1",
+      semiBlue: "#3f51b5",
       textWhite: "#fff",
       textGray: "#0000008a",
     },
@@ -229,7 +233,6 @@ export const theme = createTheme({
         },
       ],
     },
-
     MuiButton: {
       defaultProps: {
         variant: "contained",
@@ -293,6 +296,35 @@ export const theme = createTheme({
             maxWidth: "93%",
           },
         }),
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          "& .MuiOutlinedInput-root": {
+            borderRadius: "5px",
+            backgroundColor: "#fff",
+            color: "#080f58",
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#080f58",
+            },
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              border: "1px solid #080f58", // Border color when focused
+            },
+          },
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#080f58", // Default border color
+          },
+          "& .MuiInputLabel-root": {
+            color: "#080f58", // Default label color
+            "&.Mui-focused": {
+              color: "#080f58", // Label color when focused
+            },
+          },
+          "& .MuiOutlinedInput-input": {
+            padding: "10px",
+          },
+        },
       },
     },
   },

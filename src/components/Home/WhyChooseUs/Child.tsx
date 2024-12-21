@@ -18,7 +18,7 @@ const Child: React.FC<TProps> = ({ content, idx, range, target, progress }) => {
     target: ref,
     offset: ["start end", "start start"],
   });
-  const scale = useTransform(scrollYProgress, [0, 1], [2, 1]);
+  const scale = useTransform(scrollYProgress, [0, 1], [2.5, 1]);
   const scale2 = useTransform(progress, range, [1, target]);
 
   return (
@@ -28,7 +28,7 @@ const Child: React.FC<TProps> = ({ content, idx, range, target, progress }) => {
         width: "100%",
         position: "sticky",
         top: `calc(4% + ${idx * 20}px)`,
-        py: 8,
+        py: 5,
       }}
     >
       <motion.div style={{ scale: scale2 }}>
@@ -38,24 +38,33 @@ const Child: React.FC<TProps> = ({ content, idx, range, target, progress }) => {
             justifyContent: "space-between",
             alignItems: "stretch",
             px: 8,
-            py: 6,
-            bgcolor: "#fff",
+            py: 10,
+            bgcolor: "primary.main",
+            color: "#fff",
             borderRadius: "10px",
-            border: "1px solid #E5E5E5",
+            border: "1px solid gray",
+            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
           }}
         >
           <Grid2
             size={{
-              lg: 5.8,
+              lg: 5.6,
               md: 6,
               xs: 12,
             }}
             sx={{
-              bgcolor: "#fff",
               borderRadius: "10px",
             }}
           >
-            <Typography variant="h5">{content.title}</Typography>
+            <Typography
+              sx={{
+                color: "textWhite",
+                pb: "20px",
+              }}
+              variant="h4"
+            >
+              {content.title}
+            </Typography>
             <Typography variant="body1">{content.description}</Typography>
           </Grid2>
           <Grid2

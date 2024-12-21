@@ -1,6 +1,6 @@
 "use client";
 import { TChooseUsProps } from "@/types/pageProps";
-import { Container } from "@mui/material";
+import { Box, Container, Divider, Stack, Typography } from "@mui/material";
 import { useScroll } from "framer-motion";
 import React, { useRef } from "react";
 import Child from "./Child";
@@ -20,6 +20,28 @@ const WhyChooseUs: React.FC<TChooseUsProps> = ({ chooseUsContent }) => {
         gap: 1,
       }}
     >
+      <Box>
+        <Stack direction="row" alignItems="center" justifyContent={"center"}>
+          <Divider
+            orientation="vertical"
+            flexItem
+            sx={{
+              borderRightWidth: "3px",
+              borderColor: "text.blue",
+            }}
+          />
+          <Typography
+            className="top-doctors-title"
+            variant="caption1"
+            sx={{
+              fontWeight: "bold",
+              pl: 1,
+            }}
+          >
+            Why Choose Us
+          </Typography>
+        </Stack>
+      </Box>
       {chooseUsContent?.map((content, idx) => {
         const targetScale = 1 - (chooseUsContent?.length - idx) * 0.02;
         return (
