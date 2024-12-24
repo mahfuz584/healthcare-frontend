@@ -7,13 +7,13 @@ import {
   Grid2,
   IconButton,
   InputAdornment,
-  OutlinedInput,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
   Controller,
@@ -23,22 +23,29 @@ import {
 } from "react-hook-form";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { rawDataServerActions } from "services/actions";
+import { storeUserInfo } from "services/auth.service";
 import { toast } from "sonner";
 
 const LoginPage = () => {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
-      email: "",
-      password: "",
+      email: "mahfuz584@gmail.com",
+      password: "mahfuz584",
     },
   });
   const onSubmit: SubmitHandler<FieldValues> = async (values: any) => {
     const res = await rawDataServerActions("/auth/login", values);
+
     if (res.success) {
       toast.success(res.message || "Login Successful");
+      router.push("/");
       reset();
+      if (res?.data?.accessToken) {
+        storeUserInfo(res?.data?.accessToken);
+      }
     } else {
       toast.error(res.message || "Something went wrong");
     }
@@ -159,27 +166,25 @@ const LoginPage = () => {
                           return (
                             <>
                               {type === "password" ? (
-                                <OutlinedInput
-                                  endAdornment={
-                                    <InputAdornment position="end">
-                                      <IconButton
-                                        aria-label={
-                                          showPassword
-                                            ? "hide the password"
-                                            : "display the password"
-                                        }
-                                        onClick={handleClickShowPassword}
-                                        edge="end"
-                                      >
-                                        {showPassword ? (
-                                          <MdVisibilityOff />
-                                        ) : (
-                                          <MdVisibility />
-                                        )}
-                                      </IconButton>
-                                    </InputAdornment>
-                                  }
+                                <TextField
                                   {...field}
+                                  InputProps={{
+                                    endAdornment:
+                                      type === "password" ? (
+                                        <InputAdornment position="end">
+                                          <IconButton
+                                            onClick={handleClickShowPassword}
+                                            edge="end"
+                                          >
+                                            {showPassword ? (
+                                              <MdVisibility />
+                                            ) : (
+                                              <MdVisibilityOff />
+                                            )}
+                                          </IconButton>
+                                        </InputAdornment>
+                                      ) : null,
+                                  }}
                                   size="small"
                                   required
                                   fullWidth

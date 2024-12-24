@@ -8,7 +8,6 @@ import {
   Grid2,
   IconButton,
   InputAdornment,
-  OutlinedInput,
   Stack,
   TextField,
   Typography,
@@ -16,6 +15,7 @@ import {
 import { MuiTelInput } from "mui-tel-input";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
   Controller,
@@ -24,13 +24,15 @@ import {
   useForm,
 } from "react-hook-form";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
-import { formDataServerActions } from "services/actions";
+import { formDataServerActions, rawDataServerActions } from "services/actions";
+import { storeUserInfo } from "services/auth.service";
 import { toast } from "sonner";
 
 const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const { control, handleSubmit, reset } = useForm({
+  const { control, handleSubmit } = useForm({
     defaultValues: {
       patient: {
         name: "",
@@ -44,11 +46,24 @@ const RegisterPage = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = async (values) => {
     const data = formDataPayload(values);
+    const loginDatas = {
+      email: values.patient.email,
+      password: values.password,
+    };
     try {
       const res = await formDataServerActions("/user/create-patient", data);
       if (res.success) {
-        reset();
-        toast.success(res.message);
+        const loginRes = await rawDataServerActions(
+          "/auth/login",
+          loginDatas as any
+        );
+        if (loginRes?.success) {
+          toast.success(loginRes.message || "Login Successful");
+          if (loginRes?.data?.accessToken) {
+            storeUserInfo(loginRes?.data?.accessToken);
+            router.push("/");
+          }
+        }
       } else {
         toast.error(res.message || "Something went wrong");
       }
@@ -180,27 +195,25 @@ const RegisterPage = () => {
                                 label={label}
                               />
                             ) : type === "password" ? (
-                              <OutlinedInput
-                                endAdornment={
-                                  <InputAdornment position="end">
-                                    <IconButton
-                                      aria-label={
-                                        showPassword
-                                          ? "hide the password"
-                                          : "display the password"
-                                      }
-                                      onClick={handleClickShowPassword}
-                                      edge="end"
-                                    >
-                                      {showPassword ? (
-                                        <MdVisibilityOff />
-                                      ) : (
-                                        <MdVisibility />
-                                      )}
-                                    </IconButton>
-                                  </InputAdornment>
-                                }
+                              <TextField
                                 {...field}
+                                InputProps={{
+                                  endAdornment:
+                                    type === "password" ? (
+                                      <InputAdornment position="end">
+                                        <IconButton
+                                          onClick={handleClickShowPassword}
+                                          edge="end"
+                                        >
+                                          {showPassword ? (
+                                            <MdVisibility />
+                                          ) : (
+                                            <MdVisibilityOff />
+                                          )}
+                                        </IconButton>
+                                      </InputAdornment>
+                                    ) : null,
+                                }}
                                 size="small"
                                 required
                                 fullWidth

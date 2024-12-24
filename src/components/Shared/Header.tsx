@@ -1,8 +1,14 @@
+"use client";
 import { navItems } from "@helper/navOptions";
-import { Button, Container, Divider, Stack, Typography } from "@mui/material";
+import { Container, Divider, Stack, Typography } from "@mui/material";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
+
 const Header = () => {
+  const AuthBtn = dynamic(() => import("@/components/ui/lazyBtn"), {
+    ssr: false,
+  });
   return (
     <Container
       sx={{
@@ -73,9 +79,7 @@ const Header = () => {
             );
           })}
         </Stack>
-        <Button LinkComponent={Link} href="/register">
-          Register
-        </Button>
+        <AuthBtn />
       </Stack>
     </Container>
   );
