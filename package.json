@@ -12,9 +12,13 @@
     "@emotion/cache": "^11.13.1",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "@hookform/resolvers": "^3.9.1",
     "@mui/material": "^6.1.7",
     "@mui/material-nextjs": "^6.1.7",
+    "@reduxjs/toolkit": "^2.5.0",
+    "axios": "^1.7.9",
     "framer-motion": "^11.15.0",
+    "jwt-decode": "^4.0.0",
     "motion": "^11.15.0",
     "mui-tel-input": "^7.0.0",
     "next": "15.0.3",
@@ -22,8 +26,10 @@
     "react-dom": "19.0.0-rc-66855b96-20241106",
     "react-hook-form": "^7.54.2",
     "react-icons": "^5.3.0",
+    "react-redux": "^9.2.0",
     "sonner": "^1.7.1",
-    "swiper": "^11.1.15"
+    "swiper": "^11.1.15",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@types/node": "^20",

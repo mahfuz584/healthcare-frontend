@@ -3,6 +3,7 @@ export const signUpItems = [
     label: "Name",
     name: "patient.name",
     type: "text",
+    required: true,
     placeholder: "Enter your name",
     multiline: false,
   },
@@ -10,12 +11,14 @@ export const signUpItems = [
     label: "Email",
     name: "patient.email",
     type: "email",
+    required: true,
     placeholder: "Enter your email",
     multiline: false,
   },
   {
     label: "Password",
     name: "password",
+    required: true,
     type: "password",
     multiline: false,
     placeholder: "Enter your password",
@@ -23,6 +26,7 @@ export const signUpItems = [
   {
     label: "Contact Number",
     name: "patient.contactNumber",
+    required: true,
     type: "tel",
     multiline: false,
     placeholder: "Enter your contact number",
@@ -30,6 +34,7 @@ export const signUpItems = [
   {
     label: "Address",
     name: "patient.address",
+    required: true,
     type: "text-area",
     multiline: true,
     placeholder: "Enter your Address",
@@ -40,6 +45,7 @@ export const signInItems = [
   {
     label: "Email",
     name: "email",
+    required: true,
     type: "email",
     placeholder: "Enter your email",
     multiline: false,
@@ -47,6 +53,7 @@ export const signInItems = [
   {
     label: "Password",
     name: "password",
+    required: true,
     type: "password",
     multiline: false,
     placeholder: "Enter your password",

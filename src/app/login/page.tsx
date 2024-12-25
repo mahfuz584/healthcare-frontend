@@ -1,5 +1,6 @@
 "use client";
-import { signInItems } from "@helper/data/registerFields";
+import { signInItems } from "@helper/data/formFields/register/registerFields";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
   Button,
@@ -7,13 +8,13 @@ import {
   Grid2,
   IconButton,
   InputAdornment,
-  OutlinedInput,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
   Controller,
@@ -23,22 +24,35 @@ import {
 } from "react-hook-form";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { rawDataServerActions } from "services/actions";
+import { storeUserInfo } from "services/auth.service";
 import { toast } from "sonner";
+import z from "zod";
+
+export const signInSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(4, "Password must be at least 4 characters"),
+});
 
 const LoginPage = () => {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
-      email: "",
-      password: "",
+      email: "mahfuz584@gmail.com",
+      password: "mahfuz584",
     },
+    resolver: zodResolver(signInSchema),
   });
   const onSubmit: SubmitHandler<FieldValues> = async (values: any) => {
     const res = await rawDataServerActions("/auth/login", values);
     if (res.success) {
       toast.success(res.message || "Login Successful");
+      router.push("/");
       reset();
+      if (res?.data?.accessToken) {
+        storeUserInfo(res?.data?.accessToken);
+      }
     } else {
       toast.error(res.message || "Something went wrong");
     }
@@ -155,47 +169,47 @@ const LoginPage = () => {
                       <Controller
                         name={name as any}
                         control={control}
-                        render={({ field }) => {
+                        render={({ field, fieldState }) => {
                           return (
                             <>
                               {type === "password" ? (
-                                <OutlinedInput
-                                  endAdornment={
-                                    <InputAdornment position="end">
-                                      <IconButton
-                                        aria-label={
-                                          showPassword
-                                            ? "hide the password"
-                                            : "display the password"
-                                        }
-                                        onClick={handleClickShowPassword}
-                                        edge="end"
-                                      >
-                                        {showPassword ? (
-                                          <MdVisibilityOff />
-                                        ) : (
-                                          <MdVisibility />
-                                        )}
-                                      </IconButton>
-                                    </InputAdornment>
-                                  }
+                                <TextField
                                   {...field}
+                                  InputProps={{
+                                    endAdornment:
+                                      type === "password" ? (
+                                        <InputAdornment position="end">
+                                          <IconButton
+                                            onClick={handleClickShowPassword}
+                                            edge="end"
+                                          >
+                                            {showPassword ? (
+                                              <MdVisibility />
+                                            ) : (
+                                              <MdVisibilityOff />
+                                            )}
+                                          </IconButton>
+                                        </InputAdornment>
+                                      ) : null,
+                                  }}
                                   size="small"
-                                  required
                                   fullWidth
                                   label={label}
                                   type={showPassword ? "text" : "password"}
                                   placeholder={placeholder}
+                                  error={!!fieldState.error}
+                                  helperText={fieldState.error?.message}
                                 />
                               ) : (
                                 <TextField
                                   {...field}
                                   size="small"
-                                  required
                                   fullWidth
                                   label={label}
                                   type={type}
                                   placeholder={placeholder}
+                                  error={!!fieldState.error}
+                                  helperText={fieldState.error?.message}
                                 />
                               )}
                             </>
