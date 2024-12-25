@@ -1,5 +1,6 @@
 "use client";
-import { signInItems } from "@helper/data/registerFields";
+import { signInItems } from "@helper/data/formFields/register/registerFields";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
   Button,
@@ -25,6 +26,12 @@ import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { rawDataServerActions } from "services/actions";
 import { storeUserInfo } from "services/auth.service";
 import { toast } from "sonner";
+import z from "zod";
+
+export const signInSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(4, "Password must be at least 4 characters"),
+});
 
 const LoginPage = () => {
   const router = useRouter();
@@ -35,10 +42,10 @@ const LoginPage = () => {
       email: "mahfuz584@gmail.com",
       password: "mahfuz584",
     },
+    resolver: zodResolver(signInSchema),
   });
   const onSubmit: SubmitHandler<FieldValues> = async (values: any) => {
     const res = await rawDataServerActions("/auth/login", values);
-
     if (res.success) {
       toast.success(res.message || "Login Successful");
       router.push("/");
@@ -162,7 +169,7 @@ const LoginPage = () => {
                       <Controller
                         name={name as any}
                         control={control}
-                        render={({ field }) => {
+                        render={({ field, fieldState }) => {
                           return (
                             <>
                               {type === "password" ? (
@@ -186,21 +193,23 @@ const LoginPage = () => {
                                       ) : null,
                                   }}
                                   size="small"
-                                  required
                                   fullWidth
                                   label={label}
                                   type={showPassword ? "text" : "password"}
                                   placeholder={placeholder}
+                                  error={!!fieldState.error}
+                                  helperText={fieldState.error?.message}
                                 />
                               ) : (
                                 <TextField
                                   {...field}
                                   size="small"
-                                  required
                                   fullWidth
                                   label={label}
                                   type={type}
                                   placeholder={placeholder}
+                                  error={!!fieldState.error}
+                                  helperText={fieldState.error?.message}
                                 />
                               )}
                             </>
