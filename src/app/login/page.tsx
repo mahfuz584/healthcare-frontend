@@ -1,4 +1,5 @@
 "use client";
+import BrandLogo from "@/components/shared/BrandLogo";
 import { signInItems } from "@helper/data/formFields/register/registerFields";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -24,7 +25,7 @@ import {
 } from "react-hook-form";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { rawDataServerActions } from "services/actions";
-import { storeUserInfo } from "services/auth.service";
+import { getUserInfo, storeUserInfo } from "services/auth.service";
 import { toast } from "sonner";
 import z from "zod";
 
@@ -35,6 +36,7 @@ export const signInSchema = z.object({
 
 const LoginPage = () => {
   const router = useRouter();
+
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const { control, handleSubmit, reset } = useForm({
@@ -48,7 +50,7 @@ const LoginPage = () => {
     const res = await rawDataServerActions("/auth/login", values);
     if (res.success) {
       toast.success(res.message || "Login Successful");
-      router.push("/");
+      router.push(`/dashboard/${getUserInfo()?.role}`);
       reset();
       if (res?.data?.accessToken) {
         storeUserInfo(res?.data?.accessToken);
@@ -121,8 +123,6 @@ const LoginPage = () => {
               direction="row"
               justifyContent="center"
               alignItems="center"
-              component={Link}
-              href="/"
               sx={{
                 mt: 1,
                 position: "relative",
@@ -131,28 +131,7 @@ const LoginPage = () => {
                 mx: "auto",
               }}
             >
-              <Image
-                width={1000}
-                height={1000}
-                style={{
-                  objectFit: "cover",
-                  borderRadius: "100%",
-                  width: "100px",
-                  height: "100px",
-                }}
-                src="/images/brandlogo.png"
-                alt="brand-logo"
-                priority
-              />
-              <Typography
-                variant="h4"
-                sx={{
-                  color: "primary.main",
-                  pb: 2,
-                }}
-              >
-                MEDIFAX
-              </Typography>
+              <BrandLogo color="#000" text={true} />
             </Stack>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Grid2

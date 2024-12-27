@@ -13,6 +13,6 @@ export interface TDrawerItem {
   label: string;
   href: string;
   currentPath?: string;
-  icon?: IconType;
+  icon?: IconType | any;
   children?: TDrawerItem[];
 }
