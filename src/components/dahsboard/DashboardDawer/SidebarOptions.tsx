@@ -44,9 +44,9 @@ const SidebarOptions = () => {
                   }}
                   disablePadding
                 >
-                  <ListItemButton>
+                  <ListItemButton sx={{}}>
                     <ListItemIcon>
-                      <Icon />
+                      <Icon size="22px" />
                     </ListItemIcon>
                     <ListItemText primary={label} />
                   </ListItemButton>

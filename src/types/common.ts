@@ -7,6 +7,26 @@ export type TMeta = {
   total: number;
 };
 
+export type TSuccessResponseBody = {
+  data?: any;
+  meta?: TMeta;
+  statusCode?: number;
+  status?: boolean;
+  message?: string;
+};
+
+export type TErrorResponseBody = {
+  statusCode?: number;
+  status?: boolean;
+  message?: string;
+  errorMessage?: TErrorMEssage[];
+};
+
+export type TErrorMEssage = {
+  path: string | number;
+  message: string;
+};
+
 export type TUserRole = keyof typeof USER_ROLE;
 
 export interface TDrawerItem {
