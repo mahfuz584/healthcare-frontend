@@ -1,4 +1,5 @@
 "use client";
+import BrandLogo from "@/components/shared/BrandLogo";
 import { formDataPayload } from "@/utils/formDataPayload";
 import { signUpItems } from "@helper/data/formFields/register/registerFields";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -185,8 +186,6 @@ const RegisterPage = () => {
               direction="row"
               justifyContent="center"
               alignItems="center"
-              component={Link}
-              href="/"
               sx={{
                 mt: 1,
                 position: "relative",
@@ -195,28 +194,7 @@ const RegisterPage = () => {
                 mx: "auto",
               }}
             >
-              <Image
-                width={1000}
-                height={1000}
-                style={{
-                  objectFit: "cover",
-                  borderRadius: "100%",
-                  width: "100px",
-                  height: "100px",
-                }}
-                src="/images/brandlogo.png"
-                alt="brand-logo"
-                priority
-              />
-              <Typography
-                variant="h4"
-                sx={{
-                  color: "primary.main",
-                  pb: 2,
-                }}
-              >
-                MEDIFAX
-              </Typography>
+              <BrandLogo color="#000" text={true} />
             </Stack>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Grid2

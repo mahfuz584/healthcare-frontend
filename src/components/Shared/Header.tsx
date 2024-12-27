@@ -2,8 +2,8 @@
 import { navItems } from "@helper/navOptions";
 import { Container, Divider, Stack, Typography } from "@mui/material";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import Link from "next/link";
+import BrandLogo from "./BrandLogo";
 
 const Header = () => {
   const AuthBtn = dynamic(() => import("@/components/ui/lazyBtn"), {
@@ -21,42 +21,19 @@ const Header = () => {
           justifyContent: "space-between",
           alignItems: "center",
           py: 1,
-          px: 4,
+          // px: 4,
         }}
       >
         <Stack
           direction="row"
           justifyContent="center"
           alignItems="center"
-          component={Link}
-          href="/"
           sx={{
             mt: 1,
             position: "relative",
           }}
         >
-          <Image
-            width={90}
-            height={90}
-            style={{
-              objectFit: "cover",
-              borderRadius: "100%",
-            }}
-            src="/images/brandlogo.png"
-            alt="brand-logo"
-            priority
-          />
-          <Typography
-            variant="h4"
-            sx={{
-              color: "primary.main",
-              position: "absolute",
-              left: "90%",
-              top: "20%",
-            }}
-          >
-            MEDIFAX
-          </Typography>
+          <BrandLogo color="#000" text={true} />
         </Stack>
         <Stack
           direction="row"

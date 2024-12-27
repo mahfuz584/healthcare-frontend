@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 import { FaSquarePinterest } from "react-icons/fa6";
+import BrandLogo from "./BrandLogo";
 const Footer = () => {
   return (
     <Grid2
@@ -55,29 +56,7 @@ const Footer = () => {
             />
           </Box>
           <Box>
-            <Stack
-              alignItems="center"
-              direction="row"
-              sx={{
-                py: 2,
-              }}
-            >
-              <Image
-                src="/images/brandlogo.png"
-                alt="brand-logo"
-                width={80}
-                height={80}
-              />
-              <Typography
-                variant="h4"
-                sx={{
-                  color: "#fff",
-                  pb: 2,
-                }}
-              >
-                MEDIFAX
-              </Typography>
-            </Stack>
+            <BrandLogo color="#fff" text={true} />
 
             <Typography variant="body1" pb={2}>
               There are to popular Lorem ipsum dolor sit amet consectetur

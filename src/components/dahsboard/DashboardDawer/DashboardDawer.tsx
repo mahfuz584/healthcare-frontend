@@ -1,18 +1,17 @@
 "use client";
+import BrandLogo from "@/components/shared/BrandLogo";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import MuiDrawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import { CSSObject, styled, Theme, useTheme } from "@mui/material/styles";
+import { CSSObject, styled, Theme } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
-import { FaChevronCircleLeft, FaChevronCircleRight } from "react-icons/fa";
-import { IoMenu } from "react-icons/io5";
+import { RiMenuFold2Fill, RiMenuFoldFill } from "react-icons/ri";
 import SidebarOptions from "./SidebarOptions";
-
 const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -102,7 +101,6 @@ export default function DashboardDrawer({
 }: {
   children: React.ReactNode;
 }) {
-  const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -119,18 +117,17 @@ export default function DashboardDrawer({
       <AppBar position="fixed" open={open}>
         <Toolbar>
           <IconButton
+            onClick={open ? handleDrawerClose : handleDrawerOpen}
             color="inherit"
             aria-label="open drawer"
-            onClick={handleDrawerOpen}
             edge="start"
             sx={[
               {
                 marginRight: 5,
               },
-              open && { display: "none" },
             ]}
           >
-            <IoMenu />
+            {open ? <RiMenuFoldFill /> : <RiMenuFold2Fill />}
           </IconButton>
           <Typography variant="h6" noWrap component="div">
             Mini variant drawer
@@ -138,14 +135,25 @@ export default function DashboardDrawer({
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <FaChevronCircleRight />
-            ) : (
-              <FaChevronCircleLeft />
-            )}
-          </IconButton>
+        <DrawerHeader
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            mr: 3,
+            height: "120px",
+          }}
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              top: open ? "0%" : "5.4%",
+              left: "0%",
+              bottom: "0%",
+              transition: "all 0.2s ease-in-out",
+            }}
+          >
+            <BrandLogo color="#000" text={open ? true : false} />
+          </Box>
         </DrawerHeader>
         <Divider />
         <SidebarOptions />
