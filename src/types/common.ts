@@ -11,13 +11,13 @@ export type TSuccessResponseBody = {
   data?: any;
   meta?: TMeta;
   statusCode?: number;
-  status?: boolean;
+  success?: boolean;
   message?: string;
 };
 
 export type TErrorResponseBody = {
   statusCode?: number;
-  status?: boolean;
+  success?: boolean;
   message?: string;
   errorMessage?: TErrorMEssage[];
 };

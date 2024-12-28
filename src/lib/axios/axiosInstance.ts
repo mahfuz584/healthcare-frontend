@@ -38,7 +38,7 @@ instance.interceptors.response.use(
       data: response?.data?.data,
       meta: response?.data?.meta,
       statusCode: response?.data?.statusCode || 200,
-      status: response?.data?.status || true,
+      success: response?.data?.status || true,
       message: response?.data?.message || "Success",
     };
     return successResponseBody;
@@ -47,7 +47,7 @@ instance.interceptors.response.use(
     // Do something with response error
     const errorResponse: TErrorResponseBody = {
       statusCode: error?.response?.data?.statusCode || 500,
-      status: error?.response?.data?.status || false,
+      success: error?.response?.data?.status || false,
       message: error?.response?.data?.message || "Something went wrong",
       errorMessage: error?.response?.data?.message || "Something went wrong",
     };

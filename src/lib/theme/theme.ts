@@ -55,6 +55,7 @@ declare module "@mui/material/Button" {
     btnSecondary?: true;
     btnTertiary?: true;
     btnOutline?: true;
+    actionBtn?: true;
   }
 }
 
@@ -274,10 +275,20 @@ export const theme = createTheme({
           props: { variant: "btnOutline" },
           style: {
             backgroundColor: "#fff",
-
             color: "#080f58",
             borderRadius: "4px",
             border: "1px solid #080f58",
+          },
+        },
+        {
+          props: { variant: "actionBtn" },
+          style: {
+            color: "#fff",
+
+            backgroundColor: "#062a4d",
+            borderRadius: "5px",
+            border: "1px solid #062a4d",
+            boxShadow: "0px 6px 20px 20px rgba(0, 0, 0, 0.05)",
           },
         },
       ],
