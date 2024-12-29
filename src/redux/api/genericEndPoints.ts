@@ -10,6 +10,7 @@ const genericApi = () => {
             method: "GET",
           };
         },
+        providesTags: ["ListApi"],
       }),
       retrieveApi: builder.query({
         query: ({ url, id }) => {
@@ -28,6 +29,7 @@ const genericApi = () => {
             data,
           };
         },
+        invalidatesTags: ["ListApi"],
       }),
       putApi: builder.mutation({
         query: ({ url, id, data }) => {
@@ -45,6 +47,7 @@ const genericApi = () => {
             method: "DELETE",
           };
         },
+        invalidatesTags: ["ListApi"],
       }),
     }),
   });

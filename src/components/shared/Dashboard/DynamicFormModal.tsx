@@ -172,7 +172,7 @@ const DynamicFormModal: React.FC<TDialogPRops> = ({
               sx={{
                 width: "100px",
               }}
-              variant="actionBtn"
+              variant="acceptBtn"
               onClick={handleSubmit(onSubmit)}
               type="submit"
             >

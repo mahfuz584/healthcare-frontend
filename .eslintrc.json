@@ -2,6 +2,15 @@
   "extends": ["next/core-web-vitals", "next/typescript"],
   "rules": {
     "@typescript-eslint/no-require-imports": "error",
-    "@typescript-eslint/no-explicit-any": "off"
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "vars": "all", // Checks all variables
+        "args": "after-used", // Checks function arguments only if they're declared but unused
+        "ignoreRestSiblings": true, // Ignores variables in rest/spread destructuring
+        "argsIgnorePattern": "^_" // Ignores arguments prefixed with an underscore
+      }
+    ]
   }
 }

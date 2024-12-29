@@ -56,6 +56,8 @@ declare module "@mui/material/Button" {
     btnTertiary?: true;
     btnOutline?: true;
     actionBtn?: true;
+    removeBtn?: true;
+    acceptBtn?: true;
   }
 }
 
@@ -291,6 +293,28 @@ export const theme = createTheme({
             boxShadow: "0px 6px 20px 20px rgba(0, 0, 0, 0.05)",
           },
         },
+        {
+          props: { variant: "removeBtn" },
+          style: {
+            color: "#fff",
+
+            backgroundColor: "#da1818",
+            borderRadius: "5px",
+            border: "1px solid #da1818",
+            boxShadow: "0px 6px 20px 20px rgba(0, 0, 0, 0.05)",
+          },
+        },
+        {
+          props: { variant: "acceptBtn" },
+          style: {
+            color: "#fff",
+
+            backgroundColor: "#00c700",
+            borderRadius: "5px",
+            border: "1px solid #00c700",
+            boxShadow: "0px 6px 20px 20px rgba(0, 0, 0, 0.05)",
+          },
+        },
       ],
     },
     MuiContainer: {
@@ -335,6 +359,13 @@ export const theme = createTheme({
           "& .MuiOutlinedInput-input": {
             padding: "10px",
           },
+        },
+      },
+    },
+    MuiSvgIcon: {
+      styleOverrides: {
+        root: {
+          color: "#080f58",
         },
       },
     },

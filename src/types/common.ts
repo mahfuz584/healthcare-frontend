@@ -36,3 +36,15 @@ export interface TDrawerItem {
   icon?: IconType | any;
   children?: TDrawerItem[];
 }
+
+export type TDataTableProps = {
+  rows: any[];
+  columns: any[];
+  isLoading: boolean;
+  sx?: any;
+};
+
+export type TDeleteModalProps = {
+  openModal: boolean;
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+};
