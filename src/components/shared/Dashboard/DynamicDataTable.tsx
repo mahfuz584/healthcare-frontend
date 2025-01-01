@@ -18,7 +18,6 @@ const DynamicDataTable: React.FC<TDataTableProps> = ({
         disableColumnSorting
         disableAutosize
         sx={{
-          width: "99.9%",
           mt: 6,
           "& .MuiDataGrid-cell": {
             display: "flex",
@@ -31,11 +30,11 @@ const DynamicDataTable: React.FC<TDataTableProps> = ({
           "&.MuiDataGrid-root .MuiDataGrid-columnHeader:focus-within": {
             outline: "none !important",
           },
-          "& .MuiDataGrid-columnHeaders": {
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          },
+          // "& .MuiDataGrid-columnHeaders": {
+          //   display: "flex",
+          //   justifyContent: "center",
+          //   alignItems: "center",
+          // },
           ...sx,
         }}
       />

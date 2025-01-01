@@ -47,17 +47,27 @@ const SpecialtiesPage = () => {
       headerName: "ID",
       width: 100,
       headerAlign: "center",
+      align: "center",
       renderCell: (params) => params.api.getAllRowIds().indexOf(params.id) + 1,
     },
-    { field: "title", headerName: "Title", flex: 1, headerAlign: "center" },
+    {
+      field: "title",
+      headerName: "Title",
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+    },
     {
       field: "icon",
       headerName: "Icon",
       flex: 1,
       headerAlign: "center",
+      align: "center",
       renderCell: ({ row }) => (
         <Box
           sx={{
+            width: "fit-content",
+            mx: "auto",
             "& img": {
               width: "30px",
               height: "30px",
@@ -75,6 +85,7 @@ const SpecialtiesPage = () => {
       headerName: "Actions",
       width: 150,
       headerAlign: "center",
+      align: "center",
       renderCell: ({ row }) => (
         <IconButton onClick={() => setOpenModal(row?.id)}>
           <FaTrash color="#062a4d" size={20} />

@@ -1,3 +1,4 @@
+import { TDialogProps } from "@/types/common";
 import { formDataPayload } from "@/utils/formDataPayload";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Grid2, TextField } from "@mui/material";
@@ -12,17 +13,8 @@ import { Controller, FieldValues, useForm } from "react-hook-form";
 import { IoIosAttach, IoIosCloseCircleOutline } from "react-icons/io";
 import { useCreateApiMutation } from "redux/api/genericEndPoints";
 import { toast } from "sonner";
-type TDialogPRops = {
-  open: boolean;
-  handleClose: () => void;
-  textTitle: string;
-  formFields: any[];
-  schema: any;
-  formData?: boolean;
-  endpoint: string;
-};
 
-const DynamicFormModal: React.FC<TDialogPRops> = ({
+const DynamicFormModal: React.FC<TDialogProps> = ({
   open,
   handleClose,
   textTitle,
@@ -111,6 +103,9 @@ const DynamicFormModal: React.FC<TDialogPRops> = ({
                       name={name as any}
                       control={control}
                       render={({ field, fieldState }) => {
+                        if (field) {
+                          console.log(field);
+                        }
                         return (
                           <>
                             {type === "text" ? (

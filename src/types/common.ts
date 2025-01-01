@@ -48,3 +48,12 @@ export type TDeleteModalProps = {
   openModal: boolean;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
+export type TDialogProps = {
+  open: boolean;
+  handleClose: () => void;
+  textTitle: string;
+  formFields: any[];
+  schema: any;
+  formData?: boolean;
+  endpoint: string;
+};

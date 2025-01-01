@@ -6,9 +6,9 @@ export const formDataPayload = (values: any) => {
   const formData = new FormData();
   formData.append("data", stringifiedObj);
   formData.append("file", file as Blob);
-  // console.log(
-  //   "🚀 ~ formDataPayload ~ formData",
-  //   Object.fromEntries(formData.entries())
-  // );
+  console.log(
+    "🚀 ~ formDataPayload ~ formData",
+    Object.fromEntries(formData.entries())
+  );
   return formData;
 };

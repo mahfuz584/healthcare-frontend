@@ -14,6 +14,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { prohibitedChars } from "constants/prohabiatetChars";
 import { MuiTelInput } from "mui-tel-input";
 import Image from "next/image";
 import Link from "next/link";
@@ -30,8 +31,6 @@ import { formDataServerActions, rawDataServerActions } from "services/actions";
 import { storeUserInfo } from "services/auth.service";
 import { toast } from "sonner";
 import { z } from "zod";
-
-const prohibitedChars = /[()<>[\]:;@\\,/" ]/;
 
 export const RegisterSchema = z.object({
   patient: z.object({
@@ -72,7 +71,7 @@ export const RegisterSchema = z.object({
         }
       ),
 
-    contactNumber: z.string().min(11, "Invalid contact number"),
+    contactNumber: z.string().min(1, "Invalid contact number"),
     address: z.string().min(5, "Address must be at least 5 characters"),
   }),
   password: z.string().min(4, "Password must be at least 4 characters"),

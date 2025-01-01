@@ -341,14 +341,14 @@ export const theme = createTheme({
             backgroundColor: "#fff",
             color: "#080f58",
             "&:hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#080f58",
+              borderColor: "rgba(0, 0, 0, 0.12)",
             },
             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-              border: "1px solid #080f58", // Border color when focused
+              border: "1px solid rgba(0, 0, 0, 0.12)", // Border color when focused
             },
           },
           "& .MuiOutlinedInput-notchedOutline": {
-            borderColor: "#080f58", // Default border color
+            borderColor: "rgba(0, 0, 0, 0.12)", // Default border color
           },
           "& .MuiInputLabel-root": {
             color: "#080f58", // Default label color
@@ -362,6 +362,39 @@ export const theme = createTheme({
         },
       },
     },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          color: "#080f58",
+        },
+      },
+    },
+
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          ".MuiOutlinedInput-notchedOutline": {
+            border: "1px solid rgba(0, 0, 0, 0.12)",
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            border: "1px solid rgba(0, 0, 0, 0.12)", // Change hover border color
+          },
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            border: "1px solid rgba(0, 0, 0, 0.12)", // Change focused border color
+          },
+        },
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          "&:hover": {
+            backgroundColor: "#f5f5f5", // Change hover background color for options
+          },
+        },
+      },
+    },
+
     MuiSvgIcon: {
       styleOverrides: {
         root: {
