@@ -6,6 +6,7 @@ import DynamicFullFormModal from "@/components/shared/Dashboard/DynamicFullFormM
 import QuickActionBar from "@/components/shared/Dashboard/QuickActionBar";
 import { stringAvatar } from "@/utils/stringToColor";
 import { doctorsSchema } from "@helper/formSchema";
+import { useDebounce } from "@hooks/useDebounce";
 import { Box, IconButton, Stack, Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import { GridColDef } from "@mui/x-data-grid";
@@ -17,10 +18,19 @@ import { useListApiQuery } from "redux/api/genericEndPoints";
 const DoctorPage = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const query: Record<string, any> = {};
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const debouncedSeachTerm = useDebounce(searchTerm, 700);
+  if (debouncedSeachTerm) {
+    query["searchTerm"] = debouncedSeachTerm;
+  }
+
   const { data: { data: doctorData = [] } = {}, isLoading } = useListApiQuery({
     url: "/doctor",
+    query: query,
   });
-  console.log(doctorData);
+
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
@@ -251,6 +261,7 @@ const DoctorPage = () => {
   return (
     <BackgroundPaper>
       <QuickActionBar
+        setSearchTerm={setSearchTerm}
         btnText="Create Doctor"
         handleOpenDialog={handleOpenDialog}
       />
@@ -268,7 +279,11 @@ const DoctorPage = () => {
         rows={doctorData}
         isLoading={isLoading}
       />
-      <DynamicDeleteModal openModal={openModal} setOpenModal={setOpenModal} />
+      <DynamicDeleteModal
+        endpoint="/doctor/soft"
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+      />
     </BackgroundPaper>
   );
 };

@@ -47,6 +47,7 @@ export type TDataTableProps = {
 export type TDeleteModalProps = {
   openModal: boolean;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  endpoint: string;
 };
 export type TDialogProps = {
   open: boolean;

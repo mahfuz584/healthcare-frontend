@@ -7,6 +7,7 @@ import { toast } from "sonner";
 const DynamicDeleteModal: React.FC<TDeleteModalProps> = ({
   openModal,
   setOpenModal,
+  endpoint,
 }) => {
   const [deleteApi] = useDeleteApiMutation();
   const handleDelete = async () => {
@@ -14,7 +15,7 @@ const DynamicDeleteModal: React.FC<TDeleteModalProps> = ({
 
     try {
       const res = await deleteApi({
-        url: "/specialties",
+        url: endpoint,
         id: openModal,
       }).unwrap();
 

@@ -4,10 +4,11 @@ const genericApi = () => {
   return baseApi.injectEndpoints({
     endpoints: (builder) => ({
       listApi: builder.query({
-        query: ({ url }) => {
+        query: ({ url, query }) => {
           return {
             url: `${url}`,
             method: "GET",
+            params: query,
           };
         },
         providesTags: ["ListApi"],

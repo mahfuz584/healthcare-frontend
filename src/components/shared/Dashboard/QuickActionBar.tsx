@@ -3,11 +3,13 @@ import React from "react";
 type TActionProps = {
   btnText: string;
   handleOpenDialog: () => void;
+  setSearchTerm?: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const QuickActionBar: React.FC<TActionProps> = ({
   btnText,
   handleOpenDialog,
+  setSearchTerm,
 }) => {
   return (
     <>
@@ -22,7 +24,7 @@ const QuickActionBar: React.FC<TActionProps> = ({
           {btnText}
         </Button>
         <TextField
-          onChange={(e) => console.log(e.target.value)}
+          onChange={(e) => setSearchTerm && setSearchTerm(e.target.value)}
           size="small"
           id="outlined-basic"
           label="Search here"

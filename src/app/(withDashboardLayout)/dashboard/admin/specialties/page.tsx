@@ -96,7 +96,7 @@ const SpecialtiesPage = () => {
 
   const formSchema = z.object({
     title: z.string().nonempty("Specialty is required"),
-    file: z.instanceof(File, { message: "Image is required" }),
+    file: z.instanceof(File, { message: "Image is required" }).optional(),
   });
   return (
     <BackgroundPaper>
@@ -118,7 +118,11 @@ const SpecialtiesPage = () => {
         rows={specialtiesData}
         isLoading={isLoading}
       />
-      <DynamicDeleteModal openModal={openModal} setOpenModal={setOpenModal} />
+      <DynamicDeleteModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        endpoint="/specialties"
+      />
     </BackgroundPaper>
   );
 };
