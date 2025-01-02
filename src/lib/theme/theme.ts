@@ -46,6 +46,9 @@ declare module "@mui/material/Typography" {
     body3?: true;
     caption1?: true;
     caption2?: true;
+    caption3?: true;
+    caption4?: true;
+    caption5?: true;
   }
 }
 
@@ -229,6 +232,59 @@ export const theme = createTheme({
             display: "inline-block",
             fontSize: "25px",
             lineHeight: "35px",
+            [theme.breakpoints.down("sm")]: {
+              fontSize: "12px",
+            },
+          }),
+        },
+        {
+          props: { variant: "caption2" },
+          style: ({ theme }) => ({
+            fontFamily: lora.style.fontFamily,
+            fontStyle: "normal",
+            fontWeight: "600",
+            display: "inline-block",
+            fontSize: "18px",
+            lineHeight: "35px",
+            [theme.breakpoints.down("sm")]: {
+              fontSize: "12px",
+            },
+          }),
+        },
+        {
+          props: { variant: "caption3" },
+          style: ({ theme }) => ({
+            fontStyle: "normal",
+            fontWeight: "600",
+            display: "inline-block",
+            fontSize: "18px",
+            // lineHeight: "35px",
+            [theme.breakpoints.down("sm")]: {
+              fontSize: "12px",
+            },
+          }),
+        },
+        {
+          props: { variant: "caption4" },
+          style: ({ theme }) => ({
+            fontStyle: "normal",
+            fontWeight: "400",
+            display: "inline-block",
+            fontSize: "14px",
+            // lineHeight: "35px",
+            [theme.breakpoints.down("sm")]: {
+              fontSize: "12px",
+            },
+          }),
+        },
+        {
+          props: { variant: "caption5" },
+          style: ({ theme }) => ({
+            fontStyle: "normal",
+            fontWeight: "400",
+            display: "inline-block",
+            fontSize: "12px",
+            // lineHeight: "35px",
             [theme.breakpoints.down("sm")]: {
               fontSize: "12px",
             },

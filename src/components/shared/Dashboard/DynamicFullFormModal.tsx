@@ -137,16 +137,14 @@ const DynamicFullFormModal: React.FC<TDialogProps> = ({
             }}
           >
             {formFields?.map(
-              (
-                { name, type, label, placeHolder, options, accept, required },
-                idx
-              ) => {
+              ({ name, type, label, placeHolder, options, required }, idx) => {
                 return (
                   <Grid2
                     key={idx}
                     size={{
                       sm: 12,
-                      md: type === "text-area" || type === "image" ? 12 : 5.9,
+                      md:
+                        type === "text-area" || type === "img-file" ? 12 : 5.9,
                     }}
                   >
                     <Controller
@@ -156,6 +154,9 @@ const DynamicFullFormModal: React.FC<TDialogProps> = ({
                         // if (field) {
                         //   console.log(field);
                         // }
+                        if (fieldState) {
+                          console.log(fieldState);
+                        }
                         return (
                           <>
                             {type === "text" ||
@@ -271,7 +272,7 @@ const DynamicFullFormModal: React.FC<TDialogProps> = ({
                                 error={!!fieldState.error}
                                 helperText={fieldState.error?.message}
                               />
-                            ) : type === "image" ? (
+                            ) : type === "img-file" ? (
                               <UploadImage field={field} name={name} />
                             ) : null}
                           </>

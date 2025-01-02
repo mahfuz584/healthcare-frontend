@@ -1,25 +1,153 @@
 "use client";
 import BackgroundPaper from "@/components/shared/Dashboard/BackgroundPaper";
+import DynamicDataTable from "@/components/shared/Dashboard/DynamicDataTable";
+import DynamicDeleteModal from "@/components/shared/Dashboard/DynamicDeleteModal";
 import DynamicFullFormModal from "@/components/shared/Dashboard/DynamicFullFormModal";
 import QuickActionBar from "@/components/shared/Dashboard/QuickActionBar";
-import { prohibitedChars } from "constants/prohabiatetChars";
+import { stringAvatar } from "@/utils/stringToColor";
+import { doctorsSchema } from "@helper/formSchema";
+import { Box, IconButton, Stack, Typography } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import { GridColDef } from "@mui/x-data-grid";
+import Image from "next/image";
 import { useState } from "react";
-import { z } from "zod";
+import { FaTrash } from "react-icons/fa";
+import { useListApiQuery } from "redux/api/genericEndPoints";
 
 const DoctorPage = () => {
   const [openDialog, setOpenDialog] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const { data: { data: doctorData = [] } = {}, isLoading } = useListApiQuery({
+    url: "/doctor",
+  });
+  console.log(doctorData);
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
+
+  const columns: GridColDef[] = [
+    {
+      field: "",
+      headerName: "ID",
+      width: 100,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => params.api.getAllRowIds().indexOf(params.id) + 1,
+    },
+    {
+      field: "doctor",
+      headerName: "Doctor",
+      width: 400,
+      headerAlign: "center",
+      align: "center",
+      renderCell: ({ row }) => (
+        <Stack direction="row" spacing={2} alignItems="center">
+          <Box>
+            {row?.profilePhoto ? (
+              <Box
+                sx={{
+                  "& img": {
+                    width: "60px",
+                    height: "60px",
+                    objectFit: "cover",
+                    borderRadius: "5px",
+                  },
+                }}
+              >
+                <Image
+                  src={row?.profilePhoto}
+                  alt={row?.name}
+                  width={1000}
+                  height={1000}
+                />
+              </Box>
+            ) : (
+              <>
+                <Avatar
+                  {...stringAvatar(row?.name)}
+                  style={{ borderRadius: 5 }}
+                />
+              </>
+            )}
+          </Box>
+          <Box
+            sx={{
+              textAlign: "left",
+              width: "270px",
+            }}
+          >
+            <Typography variant="caption3">
+              {row?.name}{" "}
+              <Typography
+                variant="caption5"
+                sx={{
+                  textTransform: "capitalize",
+                }}
+                component={"span"}
+              >
+                ({row?.qualification})
+              </Typography>
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                fontWeight: 500,
+              }}
+            >
+              {row?.currentWorkingPlace}
+            </Typography>
+            <Typography variant="caption4">{row?.designation}</Typography>
+          </Box>
+        </Stack>
+      ),
+    },
+    {
+      field: "contact",
+      headerName: "Contact Info",
+      flex: 1,
+      headerAlign: "center",
+      renderCell: ({ row }) => (
+        <Box
+          sx={{
+            textAlign: "left",
+            width: "250px",
+          }}
+        >
+          <Typography variant="body1">{row?.email} </Typography>
+          <Typography variant="body1">{row?.contactNumber}</Typography>
+        </Box>
+      ),
+    },
+    {
+      field: "address",
+      headerName: "Address",
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+    },
+    {
+      field: "actions",
+      headerName: "Actions",
+      width: 150,
+      headerAlign: "center",
+      align: "center",
+      renderCell: ({ row }) => (
+        <IconButton onClick={() => setOpenModal(row?.id)}>
+          <FaTrash color="#062a4d" size={20} />
+        </IconButton>
+      ),
+    },
+  ];
+
   const formFields = [
     {
       name: "file",
       label: "Image",
       placeHolder: "Upload Image",
-      type: "file",
+      type: "img-file",
       required: false,
       accept: "image/*",
     },
@@ -99,6 +227,7 @@ const DoctorPage = () => {
     {
       name: "doctor.currentWorkingPlace",
       label: "Current Working Place",
+      required: true,
       placeHolder: "Enter Doctor's Current Working Place",
       type: "text",
     },
@@ -118,65 +247,6 @@ const DoctorPage = () => {
       type: "text-area",
     },
   ];
-  const doctorsSchema = z.object({
-    doctor: z.object({
-      name: z.string().min(3, "Name must be at least 3 characters"),
-      email: z
-        .string()
-        .email()
-        .min(1, "Required")
-        .refine(
-          (email) => {
-            const [localPart] = email.split("@");
-
-            // Check if local part has any prohibited characters or consecutive dots
-            return (
-              !prohibitedChars.test(localPart) &&
-              !localPart.startsWith(".") &&
-              !localPart.endsWith("()") &&
-              !localPart.includes("-")
-            );
-          },
-          {
-            message: "Email ID contains prohibited characters",
-          }
-        )
-        .refine(
-          (email) => {
-            const domainPart = email.split("@")[1];
-
-            return (
-              domainPart &&
-              !domainPart.startsWith(".") &&
-              !domainPart.endsWith(".") &&
-              !domainPart.includes("..")
-            );
-          },
-          {
-            message: "Email domain contains prohibited characters",
-          }
-        ),
-      contactNumber: z.string().min(1, "Invalid contact number"),
-      designation: z
-        .string()
-        .min(1, "Designation must be at least 1 character"),
-      qualification: z
-        .string()
-        .min(1, "Qualification must be at least 1 character"),
-      registrationNumber: z.string().min(1, "Invalid registration number"),
-      experience: z.number().min(1, "Invalid experience"),
-      gender: z.string().min(1, "Gender is required"),
-      apointmentFee: z.number().min(1, "Invalid appointment fee"),
-      currentWorkingPlace: z
-        .string()
-        .min(1, "Current working place must be at least 1 character"),
-      address: z.string().min(1, "Address must be at least 1 character"),
-    }),
-    password: z
-      .string()
-      .min(3, { message: "Password must be at least 3 characters" }),
-    file: z.instanceof(File, { message: "Image is required" }),
-  });
 
   return (
     <BackgroundPaper>
@@ -193,6 +263,12 @@ const DoctorPage = () => {
         formData={true}
         endpoint="/user/create-doctor"
       />
+      <DynamicDataTable
+        columns={columns}
+        rows={doctorData}
+        isLoading={isLoading}
+      />
+      <DynamicDeleteModal openModal={openModal} setOpenModal={setOpenModal} />
     </BackgroundPaper>
   );
 };

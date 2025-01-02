@@ -17,24 +17,29 @@ const DynamicDataTable: React.FC<TDataTableProps> = ({
         disableColumnFilter
         disableColumnSorting
         disableAutosize
+        disableColumnMenu
+        // hideFooter
+        getRowHeight={() => "auto"}
         sx={{
-          mt: 6,
-          "& .MuiDataGrid-cell": {
+          mt: 5,
+          [`& .MuiDataGrid-cell`]: {
+            paddingTop: 1,
+            paddingBottom: 1,
+            lineHeight: "unset !important",
+            maxHeight: "none !important",
             display: "flex",
-            justifyContent: "center",
             alignItems: "center",
+            justifyContent: "center",
+            whiteSpace: "normal",
           },
+
           "&.MuiDataGrid-root .MuiDataGrid-cell:focus-within": {
             outline: "none !important",
           },
           "&.MuiDataGrid-root .MuiDataGrid-columnHeader:focus-within": {
             outline: "none !important",
           },
-          // "& .MuiDataGrid-columnHeaders": {
-          //   display: "flex",
-          //   justifyContent: "center",
-          //   alignItems: "center",
-          // },
+
           ...sx,
         }}
       />
