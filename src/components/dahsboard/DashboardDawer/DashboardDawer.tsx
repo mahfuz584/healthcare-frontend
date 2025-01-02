@@ -159,7 +159,16 @@ export default function DashboardDrawer({
         <SidebarOptions />
         <Divider />
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          width: open ? `calc(100% - ${drawerWidth}px)` : `calc(100% - 72px)`,
+          transition: "width 0.3s",
+          overflowX: "hidden",
+        }}
+      >
         <DrawerHeader />
         {children}
       </Box>

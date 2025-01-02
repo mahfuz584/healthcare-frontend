@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  transpilePackages: ["mui-file-input"],
   logging: {
     fetches: {
       fullUrl: true,

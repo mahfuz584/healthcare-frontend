@@ -46,6 +46,9 @@ declare module "@mui/material/Typography" {
     body3?: true;
     caption1?: true;
     caption2?: true;
+    caption3?: true;
+    caption4?: true;
+    caption5?: true;
   }
 }
 
@@ -55,6 +58,9 @@ declare module "@mui/material/Button" {
     btnSecondary?: true;
     btnTertiary?: true;
     btnOutline?: true;
+    actionBtn?: true;
+    removeBtn?: true;
+    acceptBtn?: true;
   }
 }
 
@@ -231,6 +237,59 @@ export const theme = createTheme({
             },
           }),
         },
+        {
+          props: { variant: "caption2" },
+          style: ({ theme }) => ({
+            fontFamily: lora.style.fontFamily,
+            fontStyle: "normal",
+            fontWeight: "600",
+            display: "inline-block",
+            fontSize: "18px",
+            lineHeight: "35px",
+            [theme.breakpoints.down("sm")]: {
+              fontSize: "12px",
+            },
+          }),
+        },
+        {
+          props: { variant: "caption3" },
+          style: ({ theme }) => ({
+            fontStyle: "normal",
+            fontWeight: "600",
+            display: "inline-block",
+            fontSize: "18px",
+            // lineHeight: "35px",
+            [theme.breakpoints.down("sm")]: {
+              fontSize: "12px",
+            },
+          }),
+        },
+        {
+          props: { variant: "caption4" },
+          style: ({ theme }) => ({
+            fontStyle: "normal",
+            fontWeight: "400",
+            display: "inline-block",
+            fontSize: "14px",
+            // lineHeight: "35px",
+            [theme.breakpoints.down("sm")]: {
+              fontSize: "12px",
+            },
+          }),
+        },
+        {
+          props: { variant: "caption5" },
+          style: ({ theme }) => ({
+            fontStyle: "normal",
+            fontWeight: "400",
+            display: "inline-block",
+            fontSize: "12px",
+            // lineHeight: "35px",
+            [theme.breakpoints.down("sm")]: {
+              fontSize: "12px",
+            },
+          }),
+        },
       ],
     },
     MuiButton: {
@@ -274,10 +333,42 @@ export const theme = createTheme({
           props: { variant: "btnOutline" },
           style: {
             backgroundColor: "#fff",
-
             color: "#080f58",
             borderRadius: "4px",
             border: "1px solid #080f58",
+          },
+        },
+        {
+          props: { variant: "actionBtn" },
+          style: {
+            color: "#fff",
+
+            backgroundColor: "#062a4d",
+            borderRadius: "5px",
+            border: "1px solid #062a4d",
+            boxShadow: "0px 6px 20px 20px rgba(0, 0, 0, 0.05)",
+          },
+        },
+        {
+          props: { variant: "removeBtn" },
+          style: {
+            color: "#fff",
+
+            backgroundColor: "#da1818",
+            borderRadius: "5px",
+            border: "1px solid #da1818",
+            boxShadow: "0px 6px 20px 20px rgba(0, 0, 0, 0.05)",
+          },
+        },
+        {
+          props: { variant: "acceptBtn" },
+          style: {
+            color: "#fff",
+
+            backgroundColor: "#00c700",
+            borderRadius: "5px",
+            border: "1px solid #00c700",
+            boxShadow: "0px 6px 20px 20px rgba(0, 0, 0, 0.05)",
           },
         },
       ],
@@ -306,14 +397,14 @@ export const theme = createTheme({
             backgroundColor: "#fff",
             color: "#080f58",
             "&:hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#080f58",
+              borderColor: "rgba(0, 0, 0, 0.12)",
             },
             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-              border: "1px solid #080f58", // Border color when focused
+              border: "1px solid rgba(0, 0, 0, 0.12)", // Border color when focused
             },
           },
           "& .MuiOutlinedInput-notchedOutline": {
-            borderColor: "#080f58", // Default border color
+            borderColor: "rgba(0, 0, 0, 0.12)", // Default border color
           },
           "& .MuiInputLabel-root": {
             color: "#080f58", // Default label color
@@ -324,6 +415,46 @@ export const theme = createTheme({
           "& .MuiOutlinedInput-input": {
             padding: "10px",
           },
+        },
+      },
+    },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          color: "#080f58",
+        },
+      },
+    },
+
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          ".MuiOutlinedInput-notchedOutline": {
+            border: "1px solid rgba(0, 0, 0, 0.12)",
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            border: "1px solid rgba(0, 0, 0, 0.12)", // Change hover border color
+          },
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            border: "1px solid rgba(0, 0, 0, 0.12)", // Change focused border color
+          },
+        },
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          "&:hover": {
+            backgroundColor: "#f5f5f5", // Change hover background color for options
+          },
+        },
+      },
+    },
+
+    MuiSvgIcon: {
+      styleOverrides: {
+        root: {
+          color: "#080f58",
         },
       },
     },

@@ -11,13 +11,13 @@ export type TSuccessResponseBody = {
   data?: any;
   meta?: TMeta;
   statusCode?: number;
-  status?: boolean;
+  success?: boolean;
   message?: string;
 };
 
 export type TErrorResponseBody = {
   statusCode?: number;
-  status?: boolean;
+  success?: boolean;
   message?: string;
   errorMessage?: TErrorMEssage[];
 };
@@ -36,3 +36,25 @@ export interface TDrawerItem {
   icon?: IconType | any;
   children?: TDrawerItem[];
 }
+
+export type TDataTableProps = {
+  rows: any[];
+  columns: any[];
+  isLoading: boolean;
+  sx?: any;
+};
+
+export type TDeleteModalProps = {
+  openModal: boolean;
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  endpoint: string;
+};
+export type TDialogProps = {
+  open: boolean;
+  handleClose: () => void;
+  textTitle: string;
+  formFields: any[];
+  schema: any;
+  formData?: boolean;
+  endpoint: string;
+};
