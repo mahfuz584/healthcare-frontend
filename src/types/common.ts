@@ -41,6 +41,7 @@ export type TDataTableProps = {
   rows: any[];
   columns: any[];
   isLoading: boolean;
+
   sx?: any;
 };
 

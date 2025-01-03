@@ -8,7 +8,6 @@ type TFiledProps = {
 };
 
 const UploadImage: React.FC<TFiledProps> = ({ field, name }) => {
-  // const [fileLIst, setFileList] = useState<any>([]);
   const [preview, setPreview] = useState<string | null>(null);
   const getBase64 = (file: any): Promise<string> =>
     new Promise((resolve, reject) => {
@@ -25,10 +24,6 @@ const UploadImage: React.FC<TFiledProps> = ({ field, name }) => {
       setPreview(base64);
     }
   };
-
-  //   const handleRemove = () => {
-  //     setPreview(null);
-  //   };
 
   return (
     <Button

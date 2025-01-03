@@ -154,22 +154,24 @@ const LoginPage = () => {
                               {type === "password" ? (
                                 <TextField
                                   {...field}
-                                  InputProps={{
-                                    endAdornment:
-                                      type === "password" ? (
-                                        <InputAdornment position="end">
-                                          <IconButton
-                                            onClick={handleClickShowPassword}
-                                            edge="end"
-                                          >
-                                            {showPassword ? (
-                                              <MdVisibility />
-                                            ) : (
-                                              <MdVisibilityOff />
-                                            )}
-                                          </IconButton>
-                                        </InputAdornment>
-                                      ) : null,
+                                  slotProps={{
+                                    input: {
+                                      endAdornment:
+                                        type === "password" ? (
+                                          <InputAdornment position="end">
+                                            <IconButton
+                                              onClick={handleClickShowPassword}
+                                              edge="end"
+                                            >
+                                              {showPassword ? (
+                                                <MdVisibility />
+                                              ) : (
+                                                <MdVisibilityOff />
+                                              )}
+                                            </IconButton>
+                                          </InputAdornment>
+                                        ) : null,
+                                    },
                                   }}
                                   size="small"
                                   fullWidth

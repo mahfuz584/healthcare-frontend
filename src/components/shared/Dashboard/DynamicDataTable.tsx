@@ -18,7 +18,14 @@ const DynamicDataTable: React.FC<TDataTableProps> = ({
         disableColumnSorting
         disableAutosize
         disableColumnMenu
-        // hideFooter
+        localeText={{
+          noRowsLabel: "No data found",
+        }}
+        slotProps={{
+          loadingOverlay: {
+            variant: "skeleton",
+          },
+        }}
         getRowHeight={() => "auto"}
         sx={{
           mt: 5,

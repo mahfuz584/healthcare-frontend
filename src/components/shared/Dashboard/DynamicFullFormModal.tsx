@@ -154,9 +154,9 @@ const DynamicFullFormModal: React.FC<TDialogProps> = ({
                         // if (field) {
                         //   console.log(field);
                         // }
-                        if (fieldState) {
-                          console.log(fieldState);
-                        }
+                        // if (fieldState) {
+                        //   console.log(fieldState);
+                        // }
                         return (
                           <>
                             {type === "text" ||

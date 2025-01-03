@@ -62,5 +62,6 @@ export const doctorsSchema = z.object({
   password: z
     .string()
     .min(3, { message: "Password must be at least 3 characters" }),
-  file: z.instanceof(File, { message: "Image is required" }).optional(),
+  file: z.any().optional(),
+  // file: z.instanceof(File, { message: "Image is required" }).optional(),
 });
