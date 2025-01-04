@@ -35,14 +35,18 @@ const UploadImage: React.FC<TFiledProps> = ({ field, name }) => {
         height: "120px",
         color: "#fff",
         bgcolor: "#062a4d",
-        backgroundImage: preview ? `url(${preview})` : "none",
+        backgroundImage: preview
+          ? `url(${preview})`
+          : !!field?.value
+          ? `url(${field?.value})`
+          : "none",
         backgroundSize: "cover",
         padding: "0",
         position: "relative",
         overflow: "hidden",
       }}
     >
-      {preview ? (
+      {preview || !!field?.value ? (
         <>
           <Box
             sx={{
@@ -65,7 +69,7 @@ const UploadImage: React.FC<TFiledProps> = ({ field, name }) => {
               sx={{
                 bgcolor: "rgba(0, 0, 0, 0.8)",
                 width: "100%",
-                // height: "30%",
+
                 position: "absolute",
                 bottom: 0,
                 borderBottomLeftRadius: "5px",

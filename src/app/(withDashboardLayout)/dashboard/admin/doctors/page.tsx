@@ -12,8 +12,11 @@ import Avatar from "@mui/material/Avatar";
 import { GridColDef } from "@mui/x-data-grid";
 import Image from "next/image";
 import { useState } from "react";
-import { FaTrash } from "react-icons/fa";
-import { useListApiQuery } from "redux/api/genericEndPoints";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import {
+  useListApiQuery,
+  useRetrieveApiQuery,
+} from "redux/api/genericEndPoints";
 
 const DoctorPage = () => {
   const [openDialog, setOpenDialog] = useState(false);
@@ -31,6 +34,18 @@ const DoctorPage = () => {
     query: query,
   });
 
+  const {
+    data: { data: retrievedDoctorData = {} } = {},
+    isLoading: retrieveDataLoading,
+  } = useRetrieveApiQuery(
+    {
+      url: "/doctor",
+      id: openDialog,
+    },
+    {
+      skip: !openDialog || typeof openDialog === "boolean",
+    }
+  );
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
@@ -145,9 +160,14 @@ const DoctorPage = () => {
       headerAlign: "center",
       align: "center",
       renderCell: ({ row }) => (
-        <IconButton onClick={() => setOpenModal(row?.id)}>
-          <FaTrash color="#062a4d" size={20} />
-        </IconButton>
+        <Stack direction={"row"} spacing={1}>
+          <IconButton onClick={() => setOpenModal(row?.id)}>
+            <FaTrash color="#062a4d" size={20} />
+          </IconButton>
+          <IconButton onClick={() => setOpenDialog(row?.id)}>
+            <FaEdit color="#062a4d" size={20} />
+          </IconButton>
+        </Stack>
       ),
     },
   ];
@@ -258,21 +278,64 @@ const DoctorPage = () => {
     },
   ];
 
+  const defaultValues =
+    typeof openDialog === "string"
+      ? {
+          doctor: {
+            name: retrievedDoctorData.name || "",
+            email: retrievedDoctorData.email || "",
+            contactNumber: retrievedDoctorData.contactNumber || "",
+            designation: retrievedDoctorData.designation || "",
+            qualification: retrievedDoctorData.qualification || "",
+            registrationNumber: retrievedDoctorData.registrationNumber || "",
+            experience: retrievedDoctorData.experience || "",
+            gender: retrievedDoctorData.gender || "",
+            apointmentFee: retrievedDoctorData.apointmentFee || "",
+            currentWorkingPlace: retrievedDoctorData.currentWorkingPlace || "",
+            address: retrievedDoctorData.address || "",
+          },
+          password: retrievedDoctorData.password || "",
+          file: retrievedDoctorData.profilePhoto || "",
+        }
+      : {
+          doctor: {
+            name: "",
+            email: "",
+            contactNumber: "",
+            designation: "",
+            qualification: "",
+            registrationNumber: "",
+            experience: "",
+            gender: "",
+            apointmentFee: "",
+            currentWorkingPlace: "",
+            address: "",
+          },
+          password: "",
+          file: "",
+        };
+
   return (
     <BackgroundPaper>
       <QuickActionBar
         setSearchTerm={setSearchTerm}
         btnText="Create Doctor"
         handleOpenDialog={handleOpenDialog}
+        searchField={true}
       />
       <DynamicFullFormModal
         open={openDialog}
         handleClose={handleCloseDialog}
-        textTitle="Create Doctor"
+        textTitle={
+          typeof openDialog === "string" ? "Edit Doctor" : "Create Doctor"
+        }
         formFields={formFields}
         schema={doctorsSchema}
         formData={true}
         endpoint="/user/create-doctor"
+        pathEndpoint="/doctor"
+        defaultValues={defaultValues}
+        retrieveDataLoading={retrieveDataLoading}
       />
       <DynamicDataTable
         columns={columns}

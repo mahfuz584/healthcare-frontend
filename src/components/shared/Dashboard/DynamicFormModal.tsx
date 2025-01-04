@@ -17,11 +17,16 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { TransitionProps } from "@mui/material/transitions";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import dayjs from "dayjs";
 import { forwardRef, useState } from "react";
 import { Controller, FieldValues, useForm } from "react-hook-form";
 import { IoMdCloudDownload } from "react-icons/io";
 import { useCreateApiMutation } from "redux/api/genericEndPoints";
-
 import { toast } from "sonner";
 
 const Transition = forwardRef(function Transition(
@@ -150,7 +155,7 @@ const DynamicFormModal: React.FC<TDialogProps> = ({
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid2 container justifyContent={"space-between"} rowGap={2}>
               {formFields?.map(
-                ({ name, type, label, placeHolder, accept }, idx) => {
+                ({ name, type, label, placeHolder, accept, required }, idx) => {
                   return (
                     <Grid2
                       key={idx}
@@ -163,11 +168,11 @@ const DynamicFormModal: React.FC<TDialogProps> = ({
                         name={name as any}
                         control={control}
                         render={({ field, fieldState }) => {
-                          // if (field) {
-                          //   console.log(field);
-                          // }
                           // if (fieldState) {
                           //   console.log(fieldState);
+                          // }
+                          // if (field) {
+                          //   console.log(field);
                           // }
                           return (
                             <>
@@ -233,7 +238,6 @@ const DynamicFormModal: React.FC<TDialogProps> = ({
                                         accept: accept,
                                       },
                                     }}
-                                    // accept={accept}
                                     value={""}
                                     onChange={(e: any) => {
                                       field.onChange(e.target.files?.[0]);
@@ -243,6 +247,66 @@ const DynamicFormModal: React.FC<TDialogProps> = ({
                                     helperText={fieldState.error?.message}
                                   />
                                 </Button>
+                              ) : type === "date" ? (
+                                <LocalizationProvider
+                                  dateAdapter={AdapterDayjs}
+                                >
+                                  <DatePicker
+                                    {...field}
+                                    value={dayjs(field.value)}
+                                    onChange={(date) => {
+                                      const formattedDate =
+                                        date?.format("YYYY-MM-DD");
+                                      field.onChange(formattedDate);
+                                    }}
+                                    timezone="system"
+                                    disablePast
+                                    slotProps={{
+                                      textField: {
+                                        variant: "outlined",
+                                        size: "small",
+                                        helperText: fieldState.error?.message,
+                                        error: !!fieldState.error,
+                                        required: required,
+                                      },
+                                    }}
+                                    label={label}
+                                    sx={{
+                                      width: "100%",
+                                    }}
+                                  />
+                                </LocalizationProvider>
+                              ) : type === "time" ? (
+                                <LocalizationProvider
+                                  dateAdapter={AdapterDayjs}
+                                >
+                                  <TimePicker
+                                    sx={{
+                                      width: "100%",
+                                    }}
+                                    {...field}
+                                    label={label}
+                                    value={
+                                      field.value
+                                        ? dayjs(field.value, "HH:mm")
+                                        : null
+                                    }
+                                    onChange={(time) => {
+                                      const formattedTime =
+                                        time?.format("HH:mm");
+                                      field.onChange(formattedTime);
+                                    }}
+                                    slotProps={{
+                                      textField: {
+                                        variant: "outlined",
+                                        size: "small",
+                                        helperText: fieldState.error?.message,
+                                        error: !!fieldState.error,
+                                        required: required,
+                                      },
+                                    }}
+                                  />
+                                </LocalizationProvider>
                               ) : null}
                             </>
                           );

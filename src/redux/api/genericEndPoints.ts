@@ -32,14 +32,15 @@ const genericApi = () => {
         },
         invalidatesTags: ["ListApi"],
       }),
-      putApi: builder.mutation({
+      updateApi: builder.mutation({
         query: ({ url, id, data }) => {
           return {
             url: `${url}/${id}`,
-            method: "PUT",
+            method: "PATCH",
             data,
           };
         },
+        invalidatesTags: ["ListApi"],
       }),
       deleteApi: builder.mutation({
         query: ({ url, id }) => {
@@ -50,6 +51,14 @@ const genericApi = () => {
         },
         invalidatesTags: ["ListApi"],
       }),
+      getInfoApi: builder.query({
+        query: ({ url }) => {
+          return {
+            url: `${url}`,
+            method: "GET",
+          };
+        },
+      }),
     }),
   });
 };
@@ -58,6 +67,7 @@ export const {
   useListApiQuery,
   useRetrieveApiQuery,
   useCreateApiMutation,
-  usePutApiMutation,
+  useUpdateApiMutation,
   useDeleteApiMutation,
+  useGetInfoApiQuery,
 } = genericApi();

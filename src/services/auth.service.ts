@@ -7,7 +7,9 @@ import {
   removeCokieFromLocalStorage,
   setTokenToLocalStorage,
 } from "@/utils/localStorage";
+import { instance as axiosInstance } from "@lib/axios/axiosInstance";
 import { authKey } from "constants/authKey";
+import { baseUrl } from "constants/baseUrl";
 
 export const storeUserInfo = (token: string) => {
   return setTokenToLocalStorage(authKey, token);
@@ -32,4 +34,17 @@ export const isUserLoggedIn = () => {
 
 export const removeUser = () => {
   return removeCokieFromLocalStorage(authKey);
+};
+
+export const getNewAccessToken = async () => {
+  const refreshToken = await axiosInstance({
+    url: `${baseUrl}/auth/refresh-token`,
+    method: "POST",
+    headers: {
+      contentType: "application/json",
+    },
+    withCredentials: true,
+  });
+
+  return refreshToken;
 };

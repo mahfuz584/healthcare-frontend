@@ -58,4 +58,7 @@ export type TDialogProps = {
   schema: any;
   formData?: boolean;
   endpoint: string;
+  defaultValues: any;
+  retrieveDataLoading: boolean;
+  pathEndpoint?: string;
 };

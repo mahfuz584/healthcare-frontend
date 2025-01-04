@@ -5,6 +5,6 @@ export function stringAvatar(name: string) {
       height: 60,
       width: 60,
     },
-    children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+    children: `${name?.split(" ")?.[0]?.[0]}${name.split?.(" ")?.[1]?.[0]}`,
   };
 }

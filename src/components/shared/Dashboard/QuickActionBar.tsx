@@ -4,12 +4,14 @@ type TActionProps = {
   btnText: string;
   handleOpenDialog: () => void;
   setSearchTerm?: React.Dispatch<React.SetStateAction<string>>;
+  searchField?: boolean;
 };
 
 const QuickActionBar: React.FC<TActionProps> = ({
   btnText,
   handleOpenDialog,
   setSearchTerm,
+  searchField,
 }) => {
   return (
     <>
@@ -23,16 +25,18 @@ const QuickActionBar: React.FC<TActionProps> = ({
         >
           {btnText}
         </Button>
-        <TextField
-          onChange={(e) => setSearchTerm && setSearchTerm(e.target.value)}
-          size="small"
-          id="outlined-basic"
-          label="Search here"
-          variant="outlined"
-          sx={{
-            width: "250px",
-          }}
-        />
+        {searchField && (
+          <TextField
+            onChange={(e) => setSearchTerm && setSearchTerm(e.target.value)}
+            size="small"
+            id="outlined-basic"
+            label="Search here"
+            variant="outlined"
+            sx={{
+              width: "250px",
+            }}
+          />
+        )}
       </Stack>
       <Divider sx={{ marginTop: 2 }} />
     </>
