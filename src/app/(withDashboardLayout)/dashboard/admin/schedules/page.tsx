@@ -130,7 +130,7 @@ const SchedulesPage = () => {
         textTitle="Create Schedule"
         formFields={formFields}
         schema={scheduleSchema}
-        endpoint="/schedule"
+        postEndpoint="/schedule"
       />
       <DynamicDataTable
         columns={columns}

@@ -33,9 +33,10 @@ const genericApi = () => {
         invalidatesTags: ["ListApi"],
       }),
       updateApi: builder.mutation({
-        query: ({ url, id, data }) => {
+        query: ({ url, id, contentType, data }) => {
           return {
             url: `${url}/${id}`,
+            contentType: contentType,
             method: "PATCH",
             data,
           };

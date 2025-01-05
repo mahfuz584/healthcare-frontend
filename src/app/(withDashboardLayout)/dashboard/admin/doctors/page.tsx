@@ -4,8 +4,14 @@ import DynamicDataTable from "@/components/shared/Dashboard/DynamicDataTable";
 import DynamicDeleteModal from "@/components/shared/Dashboard/DynamicDeleteModal";
 import DynamicFullFormModal from "@/components/shared/Dashboard/DynamicFullFormModal";
 import QuickActionBar from "@/components/shared/Dashboard/QuickActionBar";
+import DynamicUpdateFormModal from "@/components/shared/Dashboard/UpdateFormModal";
 import { stringAvatar } from "@/utils/stringToColor";
-import { doctorsSchema } from "@helper/formSchema";
+import {
+  doctorsSchema,
+  postFormFields,
+  updateDoctorSchema,
+  updateFormFields,
+} from "@helper/data/formFields/dahsboard/admin/doctor";
 import { useDebounce } from "@hooks/useDebounce";
 import { Box, IconButton, Stack, Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
@@ -13,13 +19,11 @@ import { GridColDef } from "@mui/x-data-grid";
 import Image from "next/image";
 import { useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import {
-  useListApiQuery,
-  useRetrieveApiQuery,
-} from "redux/api/genericEndPoints";
+import { useListApiQuery } from "redux/api/genericEndPoints";
 
 const DoctorPage = () => {
   const [openDialog, setOpenDialog] = useState(false);
+  const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const query: Record<string, any> = {};
   const [searchTerm, setSearchTerm] = useState("");
@@ -29,28 +33,20 @@ const DoctorPage = () => {
     query["searchTerm"] = debouncedSeachTerm;
   }
 
-  const { data: { data: doctorData = [] } = {}, isLoading } = useListApiQuery({
-    url: "/doctor",
-    query: query,
-  });
-
-  const {
-    data: { data: retrievedDoctorData = {} } = {},
-    isLoading: retrieveDataLoading,
-  } = useRetrieveApiQuery(
-    {
+  const { data: { data: doctorData = [] } = {}, isLoading = true } =
+    useListApiQuery({
       url: "/doctor",
-      id: openDialog,
-    },
-    {
-      skip: !openDialog || typeof openDialog === "boolean",
-    }
-  );
+      query: query,
+    });
+
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
   const handleCloseDialog = () => {
     setOpenDialog(false);
+  };
+  const handleCloseUpdateDialog = () => {
+    setOpenUpdateDialog(false);
   };
 
   const columns: GridColDef[] = [
@@ -164,156 +160,13 @@ const DoctorPage = () => {
           <IconButton onClick={() => setOpenModal(row?.id)}>
             <FaTrash color="#062a4d" size={20} />
           </IconButton>
-          <IconButton onClick={() => setOpenDialog(row?.id)}>
+          <IconButton onClick={() => setOpenUpdateDialog(row?.id)}>
             <FaEdit color="#062a4d" size={20} />
           </IconButton>
         </Stack>
       ),
     },
   ];
-
-  const formFields = [
-    {
-      name: "file",
-      label: "Image",
-      placeHolder: "Upload Image",
-      type: "img-file",
-      required: false,
-      accept: "image/*",
-    },
-    {
-      name: "doctor.name",
-      label: "Name",
-      placeHolder: "Enter Doctor's Name",
-      required: true,
-      type: "text",
-    },
-    {
-      name: "doctor.email",
-      label: "Email",
-      required: true,
-      placeHolder: "Enter Doctor's Email",
-      type: "email",
-    },
-    {
-      name: "doctor.contactNumber",
-      label: "Contact Number",
-      placeHolder: "Enter Doctor's Contact Number",
-      required: true,
-      type: "tel",
-    },
-    {
-      name: "doctor.designation",
-      label: "Designation",
-      required: true,
-      placeHolder: "Enter Doctor's Designation",
-      type: "text",
-    },
-    {
-      name: "doctor.qualification",
-      label: "Qualification",
-      required: true,
-      placeHolder: "Enter Doctor's Qualification",
-      type: "text",
-    },
-    {
-      name: "doctor.registrationNumber",
-      label: "Registration Number",
-      required: true,
-      placeHolder: "Enter Doctor's Registration Number",
-      type: "text",
-    },
-    {
-      name: "doctor.experience",
-      label: "Experience",
-      required: true,
-      placeHolder: "Enter Doctor's Experience in Years",
-      type: "number",
-    },
-    {
-      name: "doctor.gender",
-      label: "Gender",
-      required: true,
-      placeHolder: "Select Doctor's Gender",
-      type: "select",
-      options: [
-        {
-          value: "MALE",
-          label: "Male",
-        },
-        {
-          value: "FEMALE",
-          label: "Female",
-        },
-      ],
-    },
-    {
-      name: "doctor.apointmentFee",
-      label: "Appointment Fee",
-      required: true,
-      placeHolder: "Enter Appointment Fee",
-      type: "number",
-    },
-    {
-      name: "doctor.currentWorkingPlace",
-      label: "Current Working Place",
-      required: true,
-      placeHolder: "Enter Doctor's Current Working Place",
-      type: "text",
-    },
-    {
-      name: "password",
-      label: "Password",
-      required: true,
-      placeHolder: "Enter Password",
-      type: "password",
-    },
-
-    {
-      name: "doctor.address",
-      label: "Address",
-      required: true,
-      placeHolder: "Enter Doctor's Address",
-      type: "text-area",
-    },
-  ];
-
-  const defaultValues =
-    typeof openDialog === "string"
-      ? {
-          doctor: {
-            name: retrievedDoctorData.name || "",
-            email: retrievedDoctorData.email || "",
-            contactNumber: retrievedDoctorData.contactNumber || "",
-            designation: retrievedDoctorData.designation || "",
-            qualification: retrievedDoctorData.qualification || "",
-            registrationNumber: retrievedDoctorData.registrationNumber || "",
-            experience: retrievedDoctorData.experience || "",
-            gender: retrievedDoctorData.gender || "",
-            apointmentFee: retrievedDoctorData.apointmentFee || "",
-            currentWorkingPlace: retrievedDoctorData.currentWorkingPlace || "",
-            address: retrievedDoctorData.address || "",
-          },
-          password: retrievedDoctorData.password || "",
-          file: retrievedDoctorData.profilePhoto || "",
-        }
-      : {
-          doctor: {
-            name: "",
-            email: "",
-            contactNumber: "",
-            designation: "",
-            qualification: "",
-            registrationNumber: "",
-            experience: "",
-            gender: "",
-            apointmentFee: "",
-            currentWorkingPlace: "",
-            address: "",
-          },
-          password: "",
-          file: "",
-        };
 
   return (
     <BackgroundPaper>
@@ -326,16 +179,20 @@ const DoctorPage = () => {
       <DynamicFullFormModal
         open={openDialog}
         handleClose={handleCloseDialog}
-        textTitle={
-          typeof openDialog === "string" ? "Edit Doctor" : "Create Doctor"
-        }
-        formFields={formFields}
+        textTitle="Create Doctor"
+        formFields={postFormFields}
         schema={doctorsSchema}
         formData={true}
-        endpoint="/user/create-doctor"
-        pathEndpoint="/doctor"
-        defaultValues={defaultValues}
-        retrieveDataLoading={retrieveDataLoading}
+        postEndpoint="/user/create-doctor"
+      />
+      <DynamicUpdateFormModal
+        open={openUpdateDialog}
+        handleClose={handleCloseUpdateDialog}
+        textTitle="Update Doctor"
+        formFields={updateFormFields}
+        schema={updateDoctorSchema}
+        retrieveEndpoint="/doctor"
+        patchEndpoint="/doctor"
       />
       <DynamicDataTable
         columns={columns}
