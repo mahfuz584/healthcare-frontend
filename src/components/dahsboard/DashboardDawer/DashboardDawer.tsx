@@ -1,5 +1,6 @@
 "use client";
 import BrandLogo from "@/components/shared/BrandLogo";
+import { Menu, MenuItem, Skeleton, Stack } from "@mui/material";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -9,8 +10,14 @@ import IconButton from "@mui/material/IconButton";
 import { CSSObject, styled, Theme } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import * as React from "react";
+import { FaAngleDown } from "react-icons/fa";
 import { RiMenuFold2Fill, RiMenuFoldFill } from "react-icons/ri";
+import { useGetInfoApiQuery } from "redux/api/genericEndPoints";
+import { removeUser } from "services/auth.service";
+import { toast } from "sonner";
 import SidebarOptions from "./SidebarOptions";
 const drawerWidth = 240;
 
@@ -101,14 +108,31 @@ export default function DashboardDrawer({
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
   const [open, setOpen] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const openDropdown = Boolean(anchorEl);
+  const { data: { data: userInfo = {} } = {}, isLoading } = useGetInfoApiQuery({
+    url: "/user/me",
+  });
+
+  const handleLogout = () => {
+    removeUser();
+    router.push("/login");
+    toast.success("Logout Successfully");
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -129,9 +153,106 @@ export default function DashboardDrawer({
           >
             {open ? <RiMenuFoldFill /> : <RiMenuFold2Fill />}
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Mini variant drawer
-          </Typography>
+          <Stack
+            direction={"row"}
+            justifyContent={"space-between"}
+            spacing={2}
+            alignItems="center"
+            sx={{
+              width: "100%",
+            }}
+          >
+            <Box>
+              <Typography
+                variant="h5"
+                sx={{
+                  color: "white",
+                }}
+                noWrap
+                component="div"
+              >
+                {isLoading ? "Loading..." : `Hi, ${userInfo.name}`}
+              </Typography>
+              <Typography>Welcome to the MediFax Dashboard</Typography>
+            </Box>
+            <Box
+              sx={{
+                "& img": {
+                  width: "40px",
+                  height: "40px",
+                  objectFit: "cover",
+                  borderRadius: "50%",
+                },
+              }}
+            >
+              {isLoading ? (
+                <>
+                  <Skeleton
+                    variant="rectangular"
+                    width={"40px"}
+                    height={"40px"}
+                    sx={{
+                      borderRadius: "50%",
+                    }}
+                  />
+                </>
+              ) : (
+                <Box>
+                  <IconButton
+                    id="basic-button"
+                    aria-controls={openDropdown ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={openDropdown ? "true" : undefined}
+                    onClick={handleClick}
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      gap: 1,
+                    }}
+                  >
+                    <Image
+                      src={userInfo?.profilePhoto}
+                      alt="Remy Sharp"
+                      width={1000}
+                      height={1000}
+                    />
+                    <FaAngleDown size={15} color="#fff" />
+                  </IconButton>
+                </Box>
+              )}
+            </Box>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={openDropdown}
+              onClose={handleClose}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
+              }}
+              sx={{
+                "& .MuiPaper-root": {
+                  left: "1282px !important",
+                  width: "120px",
+                },
+                "& .MuiMenuItem-root": {
+                  justifyContent: "center",
+                },
+              }}
+            >
+              <Box>
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    handleLogout();
+                  }}
+                >
+                  LogOut
+                </MenuItem>
+              </Box>
+            </Menu>
+          </Stack>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
@@ -140,13 +261,13 @@ export default function DashboardDrawer({
             display: "flex",
             alignItems: "center",
             mr: 3,
-            height: "120px",
+            height: open ? "100px" : "130px",
           }}
         >
           <Box
             sx={{
               position: "absolute",
-              top: open ? "0%" : "5.4%",
+              top: open ? "0%" : "6%",
               left: "0%",
               bottom: "0%",
               transition: "all 0.2s ease-in-out",

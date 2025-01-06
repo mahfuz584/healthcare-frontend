@@ -45,12 +45,14 @@ const DynamicFullFormModal: React.FC<TDialogProps> = ({
   formFields,
   schema,
   formData,
-  endpoint,
+  postEndpoint,
 }) => {
   const [createApi] = useCreateApiMutation();
+
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const defaultFieldValues = formFields?.reduce((acc, field) => {
+
+  const defaultFieldValues = formFields.reduce((acc, field) => {
     acc[field.name] = "";
     return acc;
   }, {});
@@ -61,13 +63,14 @@ const DynamicFullFormModal: React.FC<TDialogProps> = ({
     },
     resolver: zodResolver(schema),
   });
+
   const onSubmit = async (values: any) => {
     const toastID = toast.loading("Saving your data, please wait...");
     const payloadData = formData ? formDataPayload(values) : values;
 
     try {
       const res = await createApi({
-        url: endpoint,
+        url: postEndpoint,
         contentType: formData ? "multipart/form-data" : "application/json",
         data: payloadData,
       }).unwrap();
@@ -151,12 +154,6 @@ const DynamicFullFormModal: React.FC<TDialogProps> = ({
                       name={name as any}
                       control={control}
                       render={({ field, fieldState }) => {
-                        // if (field) {
-                        //   console.log(field);
-                        // }
-                        if (fieldState) {
-                          console.log(fieldState);
-                        }
                         return (
                           <>
                             {type === "text" ||

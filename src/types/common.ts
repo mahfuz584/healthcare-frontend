@@ -41,6 +41,7 @@ export type TDataTableProps = {
   rows: any[];
   columns: any[];
   isLoading: boolean;
+
   sx?: any;
 };
 
@@ -56,5 +57,7 @@ export type TDialogProps = {
   formFields: any[];
   schema: any;
   formData?: boolean;
-  endpoint: string;
+  postEndpoint?: string;
+  retrieveEndpoint?: string;
+  patchEndpoint?: string;
 };

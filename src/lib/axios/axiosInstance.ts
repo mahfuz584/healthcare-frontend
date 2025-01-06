@@ -1,8 +1,12 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { TErrorResponseBody, TSuccessResponseBody } from "@/types/common";
-import { getTokenFromLocalStorage } from "@/utils/localStorage";
+import {
+  getTokenFromLocalStorage,
+  setTokenToLocalStorage,
+} from "@/utils/localStorage";
 import axios from "axios";
 import { authKey } from "constants/authKey";
+import { getNewAccessToken } from "services/auth.service";
 
 export const instance = axios.create();
 
@@ -43,14 +47,22 @@ instance.interceptors.response.use(
     };
     return successResponseBody;
   },
-  function (error) {
-    // Do something with response error
-    const errorResponse: TErrorResponseBody = {
-      statusCode: error?.response?.data?.statusCode || 500,
-      success: error?.response?.data?.status || false,
-      message: error?.response?.data?.message || "Something went wrong",
-      errorMessage: error?.response?.data?.message || "Something went wrong",
-    };
-    return errorResponse;
+  async function (error) {
+    if (error?.response?.status === 500) {
+      const response = await getNewAccessToken();
+      const accessToken = response?.data?.accessToken;
+      const originalRequest = error.config;
+      originalRequest.headers["Authorization"] = accessToken;
+      setTokenToLocalStorage(authKey, accessToken);
+      return instance(originalRequest);
+    } else {
+      const errorResponse: TErrorResponseBody = {
+        statusCode: error?.response?.data?.statusCode || 500,
+        success: error?.response?.data?.status || false,
+        message: error?.response?.data?.message || "Something went wrong",
+        errorMessage: error?.response?.data?.message || "Something went wrong",
+      };
+      return errorResponse;
+    }
   }
 );
